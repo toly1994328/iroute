@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iroute/02/01/pages/color_add_page.dart';
+import 'package:iroute/02/03/router1/router1.dart';
 
 import '../../../common/components/colors_panel.dart';
 import '../../../common/pages/stl_color_page.dart';
@@ -22,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title:const Text('颜色主页')),
+      appBar: AppBar(title:const Text('颜色主页 V3')),
       floatingActionButton: FloatingActionButton(
         onPressed: _toAddPage,
         child: const Icon(Icons.add),
@@ -35,13 +36,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _selectColor(Color color){
-    Route route = MaterialPageRoute(builder: (ctx) => StlColorPage(color: color));
-    Navigator.of(context).push(route);
+    Router1.nav.pushNamed(Router1.kColorDetail,arguments: color);
   }
 
   void _toAddPage() async {
-    Route<Color> route = MaterialPageRoute<Color>(builder: (ctx) => const ColorAddPage());
-    Color? color = await Navigator.of(context).push(route);
+    dynamic color = await Router1.nav.pushNamed(Router1.kAddColor);
     if (color != null) {
       setState(() {
         _colors.add(color);
