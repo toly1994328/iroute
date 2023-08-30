@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iroute/02/01/pages/color_add_page.dart';
-import '../../common/pages/stl_color_page.dart';
-import 'pages/empty_page.dart';
-import 'pages/home_page.dart';
 import 'router1/router1.dart';
 
 void main() {
@@ -21,6 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+
       routes: Router1.routeMap,
       navigatorKey: Router1.globalNavKey,
       onUnknownRoute: Router1.onUnknownRoute,
@@ -28,8 +25,4 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: Router1.onGenerateRoute,
     );
   }
-
-
-
-
 }

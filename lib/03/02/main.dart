@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iroute/02/01/pages/color_add_page.dart';
+import 'pages/color_add_page.dart';
 import '../../common/pages/stl_color_page.dart';
 import 'pages/empty_page.dart';
 import 'pages/home_page.dart';
