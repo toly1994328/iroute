@@ -23,6 +23,6 @@ class PageA extends StatelessWidget {
   }
 
   void toPageB(BuildContext context){
-    Navigator.of(context).push(MaterialPageRoute(builder: (_)=> const PageB()));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_)=> const PageB()));
   }
 }
