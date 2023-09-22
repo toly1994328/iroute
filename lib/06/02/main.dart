@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'pages/page_a.dart';
 import 'pages/page_b.dart';
-import 'pages/page_c.dart';
+import 'pages/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,25 +23,26 @@ class MyApp extends StatelessWidget {
           titleTextStyle: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.bold)
         )
       ),
-      home:  const PageA(),
-      onUnknownRoute: _onUnknownRoute,
+      initialRoute: '/a/b',
+      onGenerateRoute: _onGenerateRoute,
     );
   }
 
-  Route? _onUnknownRoute(RouteSettings settings) {
+  Route? _onGenerateRoute(RouteSettings settings) {
     String? name = settings.name;
     Widget? page ;
+    if(name=='/'){
+      page = const HomePage();
+    }
     if(name=='/a'){
       page = const PageA();
     }
-    if(name=='/b'){
+    if(name=='/a/b'){
       page = const PageB();
     }
-    if(name=='/c'){
-      page = const PageC();
-    }
+
     if(page!=null){
-      return MaterialPageRoute(builder: (_)=> const PageB());
+      return MaterialPageRoute(builder: (_)=> page!,settings: settings);
     }
     return null;
   }

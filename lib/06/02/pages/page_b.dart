@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'page_c.dart';
+import 'home_page.dart';
 
 class PageB extends StatelessWidget {
   const PageB({super.key});
@@ -17,13 +17,13 @@ class PageB extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: ()=>toPageC(context),
-          child: const Text('Push C'),
+          child: const Text('回到主界面'),
         ),
       ),
     );
   }
 
   void toPageC(BuildContext context){
-    Navigator.of(context).push(MaterialPageRoute(builder: (_)=> const PageC()));
+    Navigator.of(context).popUntil(ModalRoute.withName('/'));
   }
 }

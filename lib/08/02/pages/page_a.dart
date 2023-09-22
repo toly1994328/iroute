@@ -23,6 +23,6 @@ class PageA extends StatelessWidget {
   }
 
   void toPageB(BuildContext context){
-    Navigator.of(context).pushNamed('/a');
+    Navigator.of(context).pushNamed('/b');
   }
 }

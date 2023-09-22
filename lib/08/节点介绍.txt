@@ -1,0 +1,5 @@
+01: 分析 pushReplacement 方法。
+    A、B、C 三个界面跳转。
+
+02: 分析 pushAndRemoveUntil 方法。
+        A、B、C、D 四个界面跳转。
