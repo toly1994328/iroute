@@ -25,6 +25,6 @@ class HomePage extends StatelessWidget {
   }
 
   void toPageA(BuildContext context) {
-    router.value = ['/', 'a'];
+    router.go('/a');
   }
 }
