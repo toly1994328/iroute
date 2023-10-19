@@ -14,9 +14,7 @@ class PageC extends StatelessWidget {
         appBar: AppBar(
           title: const Text('C 界面'),
           backgroundColor: bgColor,
-          leading: BackButton(
-            onPressed: _pop,
-          ),
+          leading: BackButton(onPressed: _pop),
         ),
         body: Center(
           child: Text('到达终点'),

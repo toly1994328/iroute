@@ -13,6 +13,7 @@ class PageA extends StatelessWidget {
         appBar: AppBar(
           title: const Text('A 界面'),
           backgroundColor: bgColor,
+          leading: BackButton(onPressed: _pop),
         ),
         body: Center(
           child: ElevatedButton(
@@ -26,4 +27,7 @@ class PageA extends StatelessWidget {
     router.value = ['/', 'a', 'b'];
   }
 
+  void _pop() {
+    router.value = List.of(router.value)..removeLast();
+  }
 }

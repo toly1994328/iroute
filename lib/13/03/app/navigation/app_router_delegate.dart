@@ -1,20 +1,30 @@
-import 'dart:ffi';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../page_a.dart';
-import '../page_b.dart';
-import '../page_c.dart';
-import '../home_page.dart';
 
-class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier{
+import '../../pages/color/color_page.dart';
+import '../../pages/empty/empty_page.dart';
+import '../../pages/settings/settings_page.dart';
+import '../../pages/counter/counter_page.dart';
+import '../../pages/user/user_page.dart';
+import '../../transition/fade_transition_page.dart';
+import '../../transition/no_transition_page.dart';
 
-  List<String> _value = ['/'];
+const List<String> kDestinationsPaths = [
+  '/color',
+  '/counter',
+  '/user',
+  '/settings',
+];
 
-  List<String> get value => _value;
+AppRouterDelegate router = AppRouterDelegate();
 
-  set value(List<String> value){
-    _value = value;
+class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
+  String _path = '/color';
+
+  String get path => _path;
+
+  set path(String value) {
+    if (_path == value) return;
+    _path = value;
     notifyListeners();
   }
 
@@ -22,19 +32,34 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier{
   Widget build(BuildContext context) {
     return Navigator(
       onPopPage: _onPopPage,
-      pages: _value.map((e) => _pageMap[e]!).toList(),
+      pages: _buildPageByPath(path),
     );
   }
 
-  final Map<String, Page> _pageMap = const {
-    '/': MaterialPage(child: HomePage()),
-    'a': MaterialPage(child: PageA()),
-    'b': MaterialPage(child: PageB()),
-    'c': MaterialPage(child: PageC()),
-  };
+  List<Page> _buildPageByPath(String path) {
+    Widget? child;
+    if (path == kDestinationsPaths[0]) {
+      child = const ColorPage();
+    }
+    if (path == kDestinationsPaths[1]) {
+      child = const CounterPage();
+    }
+    if (path == kDestinationsPaths[2]) {
+      child = const UserPage();
+    }
+    if (path == kDestinationsPaths[3]) {
+      child = const SettingPage();
+    }
+    return [
+      FadeTransitionPage(
+        key: ValueKey(path),
+        child: child ?? const EmptyPage(),
+      )
+    ];
+  }
 
   @override
-  Future<bool> popRoute() async{
+  Future<bool> popRoute() async {
     print('=======popRoute=========');
     return true;
   }
@@ -44,10 +69,7 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier{
   }
 
   @override
-  Future<void> setNewRoutePath(configuration) async{
-
-  }
-
+  Future<void> setNewRoutePath(configuration) async {}
 }
 
 // class AppRouterDelegate extends RouterDelegate<String> with ChangeNotifier, PopNavigatorRouterDelegateMixin {

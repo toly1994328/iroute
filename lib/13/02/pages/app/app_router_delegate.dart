@@ -40,6 +40,7 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier{
   }
 
   bool _onPopPage(Route route, result) {
+    value = List.of(_value)..removeLast();
     return route.didPop(result);
   }
 
