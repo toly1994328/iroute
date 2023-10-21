@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iroute/common/components/colors_panel.dart';
-import '../../app/navigation/app_router_delegate.dart';
+import '../../app/navigation/router/app_router_delegate.dart';
 
 class ColorPage extends StatefulWidget {
   const ColorPage({super.key});
@@ -25,9 +25,12 @@ class _ColorPageState extends State<ColorPage> {
         onPressed: _toAddPage,
         child: const Icon(Icons.add),
       ),
-      body: ColorsPanel(
-        colors: _colors,
-        onSelect: _selectColor,
+      body: Align(
+        alignment: Alignment.topCenter,
+        child: ColorsPanel(
+          colors: _colors,
+          onSelect: _selectColor,
+        ),
       ),
     );
   }

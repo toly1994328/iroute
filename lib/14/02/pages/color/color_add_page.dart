@@ -41,10 +41,10 @@ class _ColorAddPageState extends State<ColorAddPage> {
         ),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        // mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 16),
             child: Row(
               children: [
                 Expanded(child: Text(text,style: TextStyle(color: _color,fontSize: 24,letterSpacing: 4),)),
