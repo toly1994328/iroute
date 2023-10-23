@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iroute/components/components.dart';
 import '../router/app_router_delegate.dart';
+import 'app_router_editor.dart';
 
 class AppTopBar extends StatelessWidget {
   const AppTopBar({super.key});
@@ -11,13 +12,26 @@ class AppTopBar extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         height: 46,
-        child: const Row(
+        child: Row(
           children: [
-            SizedBox(width: 16),
-            Expanded(child: Align(
-                alignment: Alignment.centerLeft,
-                child: RouterIndicator())),
-            WindowButtons()
+            const SizedBox(width: 16),
+            const RouterIndicator(),
+            Expanded(
+                child: Row(children: [
+              const Spacer(),
+              SizedBox(
+                  width: 250,
+                  child: AppRouterEditor(
+                    onSubmit: (path) => router.path = path,
+                  )),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 12.0),
+                child: VerticalDivider(
+                  width: 32,
+                ),
+              )
+            ])),
+            const WindowButtons()
           ],
         ),
       ),
@@ -41,7 +55,6 @@ Map<String, String> kRouteLabelMap = {
   '/settings': '系统设置',
 };
 
-
 class _RouterIndicatorState extends State<RouterIndicator> {
   @override
   void initState() {
@@ -59,8 +72,8 @@ class _RouterIndicatorState extends State<RouterIndicator> {
   Widget build(BuildContext context) {
     return TolyBreadcrumb(
       items: pathToBreadcrumbItems(router.path),
-      onTapItem: (item){
-        if(item.to!=null){
+      onTapItem: (item) {
+        if (item.to != null) {
           router.path = item.to!;
         }
       },
@@ -84,9 +97,8 @@ class _RouterIndicatorState extends State<RouterIndicator> {
     for (String segment in uri.pathSegments) {
       to += '/$segment';
       String label = kRouteLabelMap[to] ?? '未知路由';
-      result.add(BreadcrumbItem(to: to, label: label,active: to==distPath));
+      result.add(BreadcrumbItem(to: to, label: label, active: to == distPath));
     }
     return result;
   }
 }
-

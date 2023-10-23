@@ -15,15 +15,6 @@ class ColorDetailPage extends StatelessWidget {
     );
     String text = '# ${color.value.toRadixString(16)}';
     return Scaffold(
-      // appBar: AppBar(
-      //     systemOverlayStyle: SystemUiOverlayStyle(
-      //         statusBarColor: Colors.transparent,
-      //         statusBarIconBrightness: Brightness.light
-      //     ),
-      //   iconTheme: IconThemeData(color: Colors.white),
-      //   titleTextStyle:TextStyle(color: Colors.white,fontSize: 18) ,
-      //   backgroundColor: color,
-      //   title: Text('颜色界面',),),
       body: Container(
         alignment: Alignment.center,
         color: color,

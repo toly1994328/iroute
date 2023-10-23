@@ -38,16 +38,7 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
 
   Completer<dynamic>? completer;
 
-  final List<String> _alivePaths = [];
-  final Map<String,List<Page>> _alivePageMap = {};
-
-  void setPathKeepLive(String value){
-    _alivePageMap[value] = _buildPageByPath(value);
-    path = value;
-  }
-
   final Map<String,dynamic> _pathExtraMap = {};
-  final List<Page> _livePages = [];
 
   void setPathForData(String value,dynamic data){
     _pathExtraMap[value] = data;
@@ -69,29 +60,15 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
 
   @override
   Widget build(BuildContext context) {
-    List<Page> pages = [];
-    if(_alivePageMap.containsKey(path)){
-      pages = _alivePageMap[path]!;
-    }else{
-      for (var element in _alivePageMap.values) {
-        pages.addAll(element);
-      }
-      pages.addAll(_buildPageByPath(path));
-    }
-
     return Navigator(
       onPopPage: _onPopPage,
-      pages: pages.toSet().toList(),
+      pages: _buildPageByPath(path),
     );
   }
 
   List<Page> _buildPageByPath(String path) {
     Widget? child;
     if(path.startsWith('/color')){
-      // child =  Navigator(
-      //   pages: ,
-      //   onPopPage: _onPopPage,
-      // );
       return buildColorPages(path);
     }
 
@@ -125,10 +102,9 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
       if(segment =='detail'){
         final Map<String, String> queryParams = uri.queryParameters;
         String? selectedColor = queryParams['color'];
-
         if (selectedColor != null) {
           Color color = Color(int.parse(selectedColor, radix: 16));
-          result.add( FadeTransitionPage(
+          result.add(FadeTransitionPage(
             key: const ValueKey('/color/detail'),
             child:ColorDetailPage(color: color),
           ));

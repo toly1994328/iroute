@@ -89,9 +89,6 @@ class _ColorAddPageState extends State<ColorAddPage> {
     );
   }
 
-  void _selectColor() {
-    Navigator.of(context).pop(_color);
-  }
 
   void changeColor(Color value) {
     _color = value;

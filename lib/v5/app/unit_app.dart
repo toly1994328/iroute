@@ -8,11 +8,10 @@ class UnitApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
-        // routerDelegate: router,
         theme: ThemeData(
           fontFamily: "宋体",
+            scaffoldBackgroundColor: Colors.white,
             appBarTheme: const AppBarTheme(
                 elevation: 0,
                 iconTheme: IconThemeData(color: Colors.black),

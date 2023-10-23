@@ -6,9 +6,9 @@ class EmptyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('界面走丢了'),
-      ),
+      // appBar: AppBar(
+      //   title: Text('界面走丢了'),
+      // ),
       body: Scaffold(
         body: Center(
           child: Wrap(

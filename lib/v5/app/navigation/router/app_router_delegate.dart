@@ -38,30 +38,28 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
 
   Completer<dynamic>? completer;
 
-  final List<String> _alivePaths = [];
-  final Map<String,Page> _alivePageMap = {};
+  final Map<String,List<Page>> _alivePageMap = {};
 
   void setPathKeepLive(String value){
-    if(!_alivePaths.contains(value)){
-      _alivePaths.add(value);
-    }
+    _alivePageMap[value] = _buildPageByPath(value);
     path = value;
   }
 
   final Map<String,dynamic> _pathExtraMap = {};
-  final List<Page> _livePages = [];
 
-  void setPathForData(String value,dynamic data){
-    _pathExtraMap[value] = data;
-    path = value;
+  FutureOr<dynamic> changePath(String value,{bool forResult=false,Object? extra}){
+    if(forResult){
+      _completerMap[value] = Completer();
+    }
+    if(extra!=null){
+      _pathExtraMap[value] = extra;
+    }
+
+    if(forResult){
+      return _completerMap[value]!.future;
+    }
   }
 
-  Future<dynamic> changePathForResult(String value) async{
-    Completer<dynamic> completer = Completer();
-    _completerMap[value] = completer;
-    path = value;
-    return completer.future;
-  }
 
   set path(String value) {
     if (_path == value) return;
@@ -71,21 +69,15 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
 
   @override
   Widget build(BuildContext context) {
-    List<Page> pages = _buildPageByPath(path);
-
-    if(_alivePaths.contains(path)){
-      _alivePageMap[path] = pages.last;
+    List<Page> pages = [];
+    if(_alivePageMap.containsKey(path)){
+      pages = _alivePageMap[path]!;
+    }else{
+      for (var element in _alivePageMap.values) {
+        pages.addAll(element);
+      }
+      pages.addAll(_buildPageByPath(path));
     }
-
-    pages.insertAll(0,_alivePageMap.values);
-
-    // if(!_livePaths.contains(path)){
-    //   if(_livePaths.isNotEmpty){
-    //     pages.addAll(_buildPageByPath(_livePaths.first));
-    //   }
-    // }
-
-    // pages.addAll();
 
     return Navigator(
       onPopPage: _onPopPage,
@@ -94,11 +86,11 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
   }
 
   List<Page> _buildPageByPath(String path) {
+    Widget? child;
     if(path.startsWith('/color')){
       return buildColorPages(path);
     }
 
-    Widget? child;
     if (path == kDestinationsPaths[1]) {
       child = const CounterPage();
     }
@@ -127,24 +119,24 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
         ));
       }
       if(segment =='detail'){
-        // final Map<String, String> queryParams = uri.queryParameters;
-        // String? selectedColor = queryParams['color'];
-        //
-        // if (selectedColor != null) {
-        //   Color color = Color(int.parse(selectedColor, radix: 16));
-        //   result.add( FadeTransitionPage(
-        //     key: const ValueKey('/color/detail'),
-        //     child:ColorDetailPage(color: color),
-        //   ));
-        // }
+        final Map<String, String> queryParams = uri.queryParameters;
+        String? selectedColor = queryParams['color'];
 
-        Color? selectedColor = _pathExtraMap[path];
         if (selectedColor != null) {
+          Color color = Color(int.parse(selectedColor, radix: 16));
           result.add( FadeTransitionPage(
             key: const ValueKey('/color/detail'),
-            child:ColorDetailPage(color: selectedColor),
+            child:ColorDetailPage(color: color),
           ));
-          _pathExtraMap.remove(path);
+        }else{
+          Color? selectedColor = _pathExtraMap[path];
+          if (selectedColor != null) {
+            result.add( FadeTransitionPage(
+              key: const ValueKey('/color/detail'),
+              child:ColorDetailPage(color: selectedColor),
+            ));
+            _pathExtraMap.remove(path);
+          }
         }
       }
       if(segment == 'add'){
