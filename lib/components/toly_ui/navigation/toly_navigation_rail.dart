@@ -2,37 +2,20 @@ import 'package:flutter/material.dart';
 
 import 'menu_meta.dart';
 
-// final List<NavigationRailDestination> destinations = const [
-//   NavigationRailDestination(icon: Icon(Icons.color_lens_outlined), label: Text("颜色板")),
-//   NavigationRailDestination(icon: Icon(Icons.add_chart), label: Text("计数器")),
-//   NavigationRailDestination(icon: Icon(Icons.person), label: Text("我的")),
-//   NavigationRailDestination(icon: Icon(Icons.settings), label: Text("设置")),
-// ];
-
-const List<MenuMeta> kDeskNavBarMenus = [
-  MenuMeta(label: '颜色板', icon: Icons.color_lens_outlined),
-  MenuMeta(
-    label: '计数器',
-    icon: Icons.add_chart,
-  ),
-  MenuMeta(
-    label: '我的',
-    icon: Icons.person,
-  ),
-  MenuMeta(label: '设置', icon: Icons.settings),
-];
-
 class TolyNavigationRail extends StatelessWidget {
   final ValueChanged<int> onDestinationSelected;
   final Color backgroundColor;
   final int? selectedIndex;
   final Widget? leading;
-
+  final Widget? tail;
+  final List<MenuMeta> items;
   const TolyNavigationRail({
     Key? key,
     required this.onDestinationSelected,
     required this.selectedIndex,
+    required this.items,
     this.leading,
+    this.tail,
     required this.backgroundColor,
   }) : super(key: key);
 
@@ -46,11 +29,11 @@ class TolyNavigationRail extends StatelessWidget {
           if(leading!=null) leading!,
           Expanded(
               child: LeftNavigationMenu(
-            items: kDeskNavBarMenus,
+            items: items,
             selectedIndex: selectedIndex,
             onTapItem: onDestinationSelected,
           )),
-          // if (selectedIndex == 0) HelpButton()
+          if(tail!=null) tail!,
         ],
       ),
     );

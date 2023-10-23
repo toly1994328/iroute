@@ -1,26 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:iroute/components/components.dart';
 import '../router/app_router_delegate.dart';
-import 'package:window_manager/window_manager.dart';
+import 'app_router_editor.dart';
 
-
-class TopBar extends StatelessWidget {
-  const TopBar({super.key});
+class AppTopBar extends StatelessWidget {
+  const AppTopBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return DragToMoveAreaNoDouble(
+    return DragToMoveWrap(
       child: Container(
         alignment: Alignment.center,
         height: 46,
         child: Row(
           children: [
-            const SizedBox(
-              width: 16,
-            ),
-            RouterIndicator(),
-            Spacer(),
-            WindowButtons()
+            const SizedBox(width: 16),
+            const RouterIndicator(),
+            Expanded(
+                child: Row(children: [
+              const Spacer(),
+              SizedBox(
+                  width: 250,
+                  child: AppRouterEditor(
+                    onSubmit: (path) => router.path = path,
+                  )),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 12.0),
+                child: VerticalDivider(
+                  width: 32,
+                ),
+              )
+            ])),
+            const WindowButtons()
           ],
         ),
       ),
@@ -35,6 +46,15 @@ class RouterIndicator extends StatefulWidget {
   State<RouterIndicator> createState() => _RouterIndicatorState();
 }
 
+Map<String, String> kRouteLabelMap = {
+  '/color': '颜色板',
+  '/color/add': '添加颜色',
+  '/color/detail': '颜色详情',
+  '/counter': '计数器',
+  '/user': '我的',
+  '/settings': '系统设置',
+};
+
 class _RouterIndicatorState extends State<RouterIndicator> {
   @override
   void initState() {
@@ -42,21 +62,18 @@ class _RouterIndicatorState extends State<RouterIndicator> {
     router.addListener(_onRouterChange);
   }
 
-  Map<String, String> routeLabelMap = {
-    '/color': '颜色板',
-    '/color/add': '添加颜色',
-    '/color/detail': '颜色详情',
-    '/counter': '计数器',
-    '/user': '我的',
-    '/settings': '系统设置',
-  };
+  @override
+  void dispose() {
+    router.removeListener(_onRouterChange);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return TolyBreadcrumb(
       items: pathToBreadcrumbItems(router.path),
-      onTapItem: (item){
-        if(item.to!=null){
+      onTapItem: (item) {
+        if (item.to != null) {
           router.path = item.to!;
         }
       },
@@ -64,7 +81,6 @@ class _RouterIndicatorState extends State<RouterIndicator> {
   }
 
   void _onRouterChange() {
-    print('_onRouterChange');
     setState(() {});
   }
 
@@ -80,28 +96,9 @@ class _RouterIndicatorState extends State<RouterIndicator> {
 
     for (String segment in uri.pathSegments) {
       to += '/$segment';
-      result.add(BreadcrumbItem(to: to, label: routeLabelMap[to] ?? '未知路由',active: to==distPath));
+      String label = kRouteLabelMap[to] ?? '未知路由';
+      result.add(BreadcrumbItem(to: to, label: label, active: to == distPath));
     }
     return result;
-  }
-}
-
-class DragToMoveAreaNoDouble extends StatelessWidget {
-  final Widget child;
-
-  const DragToMoveAreaNoDouble({
-    Key? key,
-    required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onPanStart: (details) {
-        windowManager.startDragging();
-      },
-      child: child,
-    );
   }
 }

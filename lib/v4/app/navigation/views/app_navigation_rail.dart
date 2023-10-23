@@ -39,6 +39,10 @@ class _AppNavigationRailState extends State<AppNavigationRail> {
           padding: EdgeInsets.symmetric(vertical: 18.0),
           child: FlutterLogo(),
         ),
+        tail: Padding(
+          padding: const EdgeInsets.only(bottom: 6.0),
+          child: Text('V0.0.4',style: TextStyle(color: Colors.white,fontSize: 12),),
+        ),
         backgroundColor: const Color(0xff3975c6),
         onDestinationSelected: _onDestinationSelected,
         selectedIndex: router.activeIndex,
@@ -48,7 +52,11 @@ class _AppNavigationRailState extends State<AppNavigationRail> {
   }
 
   void _onDestinationSelected(int index) {
-    router.path = kDestinationsPaths[index];
+    if(index==1){
+      router.setPathKeepLive(kDestinationsPaths[index]);
+    }else{
+      router.path = kDestinationsPaths[index];
+    }
   }
 
   void _onRouterChange() {

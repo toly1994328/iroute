@@ -38,6 +38,22 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
 
   Completer<dynamic>? completer;
 
+  final List<String> _alivePaths = [];
+  final Map<String,List<Page>> _alivePageMap = {};
+
+  void setPathKeepLive(String value){
+    _alivePageMap[value] = _buildPageByPath(value);
+    path = value;
+  }
+
+  final Map<String,dynamic> _pathExtraMap = {};
+  final List<Page> _livePages = [];
+
+  void setPathForData(String value,dynamic data){
+    _pathExtraMap[value] = data;
+    path = value;
+  }
+
   Future<dynamic> changePathForResult(String value) async{
     Completer<dynamic> completer = Completer();
     _completerMap[value] = completer;
@@ -51,42 +67,34 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
     notifyListeners();
   }
 
-  // IRoute? parserPath(String path){
-  //
-  //   List<String> parts = path.split('/');
-  //   String lever1 = '/${parts[1]}';
-  //   List<IRoute> iRoutes = kDestinationsIRoutes.where((e) => e.path == lever1).toList();
-  //
-  //   int counter = 2;
-  //
-  //   IRoute? result;
-  //   String check = lever1;
-  //   for(int i = 0;i<iRoutes.length;i++){
-  //     check = check +"/" + parts[counter];
-  //     String path = iRoutes[i].path;
-  //     if(path == check){
-  //       result = iRoutes[i];
-  //       break;
-  //     }
-  //     // String path =
-  //     // result.children.add(IRoute(path: parts[i]);
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
+    List<Page> pages = [];
+    if(_alivePageMap.containsKey(path)){
+      pages = _alivePageMap[path]!;
+    }else{
+      for (var element in _alivePageMap.values) {
+        pages.addAll(element);
+      }
+      pages.addAll(_buildPageByPath(path));
+    }
+
     return Navigator(
       onPopPage: _onPopPage,
-      pages: _buildPageByPath(path),
+      pages: pages.toSet().toList(),
     );
   }
 
   List<Page> _buildPageByPath(String path) {
+    Widget? child;
     if(path.startsWith('/color')){
+      // child =  Navigator(
+      //   pages: ,
+      //   onPopPage: _onPopPage,
+      // );
       return buildColorPages(path);
     }
 
-    Widget? child;
     if (path == kDestinationsPaths[1]) {
       child = const CounterPage();
     }
@@ -117,17 +125,27 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
       if(segment =='detail'){
         final Map<String, String> queryParams = uri.queryParameters;
         String? selectedColor = queryParams['color'];
+
         if (selectedColor != null) {
           Color color = Color(int.parse(selectedColor, radix: 16));
           result.add( FadeTransitionPage(
             key: const ValueKey('/color/detail'),
             child:ColorDetailPage(color: color),
           ));
+        }else{
+          Color? selectedColor = _pathExtraMap[path];
+          if (selectedColor != null) {
+            result.add( FadeTransitionPage(
+              key: const ValueKey('/color/detail'),
+              child:ColorDetailPage(color: selectedColor),
+            ));
+            _pathExtraMap.remove(path);
+          }
         }
       }
       if(segment == 'add'){
         result.add( const FadeTransitionPage(
-          key: ValueKey('/color/add'),
+          key:  ValueKey('/color/add'),
           child:ColorAddPage(),
         ));
       }

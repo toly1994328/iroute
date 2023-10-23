@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
-import 'v3/app.dart';
+import 'v4/app.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +14,7 @@ void setSize() async{
   await windowManager.ensureInitialized();
   WindowOptions windowOptions = const WindowOptions(
     size: Size(800, 540),
+    minimumSize: Size(600, 400),
     center: true,
     backgroundColor: Colors.transparent,
     skipTaskbar: false,
