@@ -3,8 +3,10 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import 'functions.dart';
-import 'provider/sort_config.dart';
+import '../bloc/state.dart';
+import '../functions.dart';
+import '../bloc/sort_config.dart';
+import 'data_painter.dart';
 
 class SortPage extends StatefulWidget {
   final Size size;
@@ -92,15 +94,14 @@ class _SortPageState extends State<SortPage> {
     if(count==-1){
       s = widget.size.width~/2;
     }
+
     if(sortConfig.value.seed!=-1){
       random = Random(sortConfig.value.seed);
     }
-    for (int i = 0; i < s; i++) {
 
+    for (int i = 0; i < s; i++) {
       //随机往数组中填值
       numbers.add(random.nextInt(widget.size.height.toInt()));
-
-      //numbers.add(Random().nextInt();
     }
     setState(() {});
   }
@@ -114,6 +115,9 @@ class _SortPageState extends State<SortPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    List<int> numbers =  SortStateScope.of(context).data;
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.run_circle_outlined),
@@ -126,17 +130,9 @@ class _SortPageState extends State<SortPage> {
         stream: streamController.stream,
         builder: (context, snapshot) {
           List<int> numbers = snapshot.data as List<int>;
-          return Row(
-            children: numbers.asMap().keys.map((int index) {
-              return CustomPaint(
-                painter: BarPainter(
-                  height: widget.size.height,
-                  width: widget.size.width/numbers.length,
-                  value: numbers[index],
-                  index: index,
-                ),
-              );
-            }).toList(),
+          return CustomPaint(
+            size: widget.size,
+            painter: DataPainter(data: numbers),
           );
         },
       ),

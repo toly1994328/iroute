@@ -6,12 +6,13 @@ class SortConfig {
   final int count;
   final int seed;
   final Duration duration;
+  final String name;
 
-  SortConfig(this.count, this.duration,this.seed);
+  SortConfig(this.count, this.duration,this.seed,this.name);
 }
 
 final ValueNotifier<SortConfig> sortConfig = ValueNotifier(
-  SortConfig(-1, const Duration(microseconds: 1500),-1),
+  SortConfig(-1, const Duration(microseconds: 1500),-1,'quick'),
 );
 
 

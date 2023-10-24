@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iroute/v5/pages/sort/provider/sort_config.dart';
+import 'package:iroute/v5/pages/sort/bloc/sort_config.dart';
 import '../../../pages/sort/sort_setting.dart';
 import '../router/app_router_delegate.dart';
 import 'app_navigation_rail.dart';

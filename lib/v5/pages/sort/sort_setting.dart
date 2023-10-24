@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'provider/sort_config.dart';
+import 'bloc/sort_config.dart';
 
 class SortSettings extends StatefulWidget {
 
@@ -79,7 +79,7 @@ class _SortSettingsState extends State<SortSettings> {
 
               sortConfig.value = SortConfig(int.parse(_count.text), Duration(
                 microseconds: int.parse(_duration.text),
-              ),int.parse(_seed.text));
+              ),int.parse(_seed.text),sortConfig.value.name);
 
               Navigator.of(context).pop();
             }, child: Text('确定设置'))

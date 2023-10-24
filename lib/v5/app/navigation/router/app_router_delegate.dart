@@ -9,7 +9,7 @@ import '../../../pages/empty/empty_page.dart';
 import '../../../pages/settings/settings_page.dart';
 import '../../../pages/user/user_page.dart';
 import '../../../pages/counter/counter_page.dart';
-import '../../../pages/sort/sort_page.dart';
+import '../../../pages/sort/views/sort_page.dart';
 import '../transition/fade_transition_page.dart';
 import '../../../pages/color/color_add_page.dart';
 
