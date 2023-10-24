@@ -7,6 +7,7 @@ import '../../../pages/color/color_detail_page.dart';
 import '../../../pages/color/color_page.dart';
 import '../../../pages/empty/empty_page.dart';
 import '../../../pages/settings/settings_page.dart';
+import '../../../pages/user/user_page.dart';
 import '../../../pages/counter/counter_page.dart';
 import '../../../pages/sort/sort_page.dart';
 import '../transition/fade_transition_page.dart';
@@ -15,6 +16,7 @@ import '../../../pages/color/color_add_page.dart';
 const List<String> kDestinationsPaths = [
   '/color',
   '/counter',
+  '/sort',
   '/user',
   '/settings',
 ];
@@ -29,8 +31,9 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
   int? get activeIndex {
     if(path.startsWith('/color')) return 0;
     if(path.startsWith('/counter')) return 1;
-    if(path.startsWith('/user')) return 2;
-    if(path.startsWith('/settings')) return 3;
+    if(path.startsWith('/sort')) return 2;
+    if(path.startsWith('/user')) return 3;
+    if(path.startsWith('/settings')) return 4;
     return null;
   }
 
@@ -95,9 +98,13 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
       child = const CounterPage();
     }
     if (path == kDestinationsPaths[2]) {
-      child = const SortPage();
+      child = LayoutBuilder(
+          builder: (_,cts)=> SortPage(size: Size(cts.maxWidth,cts.maxHeight),));
     }
     if (path == kDestinationsPaths[3]) {
+      child = const UserPage();
+    }
+    if (path == kDestinationsPaths[4]) {
       child = const SettingPage();
     }
     return [
