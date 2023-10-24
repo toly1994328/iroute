@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iroute/v5/pages/sort/bloc/sort_config.dart';
 import '../../../pages/sort/sort_setting.dart';
 import '../router/app_router_delegate.dart';
 import 'app_navigation_rail.dart';
@@ -13,7 +12,7 @@ class AppNavigation extends StatelessWidget {
     double px1 = 1/View.of(context).devicePixelRatio;
     return Scaffold(
       endDrawer: Drawer(
-        child: SortSettings(config: sortConfig.value,),
+        child: SortSettings(),
       ),
       body: Row(
         children: [

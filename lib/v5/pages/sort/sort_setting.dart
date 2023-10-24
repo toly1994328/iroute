@@ -1,32 +1,36 @@
 import 'package:flutter/material.dart';
 
-import 'bloc/sort_config.dart';
+import 'provider/sort_config.dart';
+import 'provider/state.dart';
 
 class SortSettings extends StatefulWidget {
 
-  final SortConfig config;
-
-  const SortSettings({super.key,required this.config});
+  const SortSettings({super.key,});
 
   @override
   State<SortSettings> createState() => _SortSettingsState();
 }
 
 class _SortSettingsState extends State<SortSettings> {
+  late TextEditingController _count =
+      TextEditingController();
+  late TextEditingController _duration = TextEditingController();
+  late TextEditingController _seed =
+      TextEditingController();
 
-  late TextEditingController _count = TextEditingController(
-      text:sortConfig.value.count.toString()
-  );
-  late TextEditingController _duration = TextEditingController(
-      text:sortConfig.value.duration.inMicroseconds.toString()
-  );
-  late TextEditingController _seed = TextEditingController(
-      text:sortConfig.value.seed.toString()
-  );
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    print('========_SortSettingsState#didChangeDependencies=============');
+    super.didChangeDependencies();
+    SortState state = SortStateScope.of(context);
+    _count.text = state.config.count.toString();
+    _duration.text = state.config.duration.inMicroseconds.toString();
+    _seed.text = state.config.seed.toString();
   }
 
   @override
@@ -50,8 +54,11 @@ class _SortSettingsState extends State<SortSettings> {
             Row(
               children: [
                 Text('数据数量(个数):'),
-                const SizedBox(width: 20,),
-                Expanded(child: TextField(
+                const SizedBox(
+                  width: 20,
+                ),
+                Expanded(
+                    child: TextField(
                   controller: _count,
                 )),
               ],
@@ -59,8 +66,11 @@ class _SortSettingsState extends State<SortSettings> {
             Row(
               children: [
                 Text('时间间隔(微秒):'),
-                const SizedBox(width: 20,),
-                Expanded(child: TextField(
+                const SizedBox(
+                  width: 20,
+                ),
+                Expanded(
+                    child: TextField(
                   controller: _duration,
                 )),
               ],
@@ -68,21 +78,29 @@ class _SortSettingsState extends State<SortSettings> {
             Row(
               children: [
                 Text('随机种子:'),
-                const SizedBox(width: 20,),
-                Expanded(child: TextField(
+                const SizedBox(
+                  width: 20,
+                ),
+                Expanded(
+                    child: TextField(
                   controller: _seed,
                 )),
               ],
             ),
             Spacer(),
-            ElevatedButton(onPressed: (){
-
-              sortConfig.value = SortConfig(int.parse(_count.text), Duration(
-                microseconds: int.parse(_duration.text),
-              ),int.parse(_seed.text),sortConfig.value.name);
-
-              Navigator.of(context).pop();
-            }, child: Text('确定设置'))
+            ElevatedButton(
+                onPressed: () {
+                  SortState state = SortStateScope.of(context);
+                  state.config =state.config.copyWith(
+                    count:  int.parse(_count.text),
+                    duration: Duration(
+                      microseconds: int.parse(_duration.text),
+                    ),
+                    seed: int.parse(_seed.text)
+                  );
+                  Navigator.of(context).pop();
+                },
+                child: Text('确定设置'))
           ],
         ),
       ),

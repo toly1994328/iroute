@@ -19,23 +19,23 @@ class DataPainter extends CustomPainter{
 
     for(int i=0;i<data.length;i++){
       int value = data[i];
-      if (value < height * .10) {
+      if (value < 1000 * .10) {
         paint.color = Colors.blue.shade100;
-      } else if (value < height * .20) {
+      } else if (value < 1000 * .20) {
         paint.color = Colors.blue.shade200;
-      } else if (value < height * .30) {
+      } else if (value < 1000 * .30) {
         paint.color = Colors.blue.shade300;
-      } else if (value < height * .40) {
+      } else if (value < 1000 * .40) {
         paint.color = Colors.blue.shade400;
-      } else if (value < height * .50) {
+      } else if (value < 1000 * .50) {
         paint.color = Colors.blue.shade500;
-      } else if (value < height * .60) {
+      } else if (value < 1000 * .60) {
         paint.color = Colors.blue.shade600;
-      } else if (value < height * .70) {
+      } else if (value < 1000 * .70) {
         paint.color = Colors.blue.shade700;
-      } else if (value < height * .80) {
+      } else if (value < 1000 * .80) {
         paint.color = Colors.blue.shade800;
-      } else if (value < height * .90) {
+      } else if (value < 1000 * .90) {
         paint.color = Colors.blue.shade900;
       } else {
         paint.color = const Color(0xFF011E51);
@@ -44,7 +44,7 @@ class DataPainter extends CustomPainter{
           Offset(i * itemWidth+itemWidth/2, 0),
           Offset(
             i * itemWidth+itemWidth/2,
-            value.ceilToDouble(),
+            size.height*(value/1000),
           ),
           paint);
     }

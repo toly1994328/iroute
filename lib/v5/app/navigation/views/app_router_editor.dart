@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iroute/components/toly_ui/button/hover_icon_button.dart';
 import 'package:iroute/components/toly_ui/popable/drop_selectable_widget.dart';
-import 'package:iroute/v5/pages/sort/bloc/sort_config.dart';
 import '../../../pages/sort/functions.dart';
+import '../../../pages/sort/views/sort_bar.dart';
+import '../../../pages/sort/views/sort_button.dart';
 import '../router/app_router_delegate.dart';
 
 class AppRouterEditor extends StatefulWidget {
@@ -28,6 +29,9 @@ class _AppRouterEditorState extends State<AppRouterEditor> {
 
   void _onRouteChange() {
     _controller.text=router.path;
+    setState(() {
+
+    });
   }
 
   @override
@@ -39,58 +43,37 @@ class _AppRouterEditorState extends State<AppRouterEditor> {
 
   @override
   Widget build(BuildContext context) {
+    print(router.path);
+    if(router.path=='/sort'){
+      return  SortBar();
+    }
 
-    return  Row(
-      children: [
-        DropSelectableWidget(
-          fontSize: 12,
-          data: sortNameMap.values.toList(),
-          iconSize: 20,
-          height: 30,
-          width: 200,
-          disableColor: const Color(0xff1F425F),
-          onDropSelected: (int index) async {
-sortName.value=sortNameMap.keys.toList()[index];
-            // curveAnim = CurvedAnimation(
-            //     parent: _ctrl, curve: maps.values.toList()[index]);
-            // _startAnim();
-          },
-        ),
-        const SizedBox(width: 10,),
-        GestureDetector(
-            onTap: (){
-              Scaffold.of(context).openEndDrawer();
-              // showDialog(
-              //     useRootNavigator: false,
-              //     context: context, builder: (ctx)=>AlertDialog());
-            },
-            child: const Icon(Icons.settings))
-      ],
-    );
-
-    return Stack(
-      alignment: Alignment.centerRight,
-      children: [
-        SizedBox(
-          child: CupertinoTextField(
-            controller: _controller,
-            style: TextStyle(fontSize: 14),
-            padding: EdgeInsets.only(left:12,top: 6,bottom: 6,right: 32),
-            placeholder: '输入路由地址导航',
-            onSubmitted: widget.onSubmit,
-            decoration: BoxDecoration(color: Color(0xffF1F2F3),borderRadius: BorderRadius.circular(6)),
+    return SizedBox(
+      width: 250,
+      child: Stack(
+        alignment: Alignment.centerRight,
+        children: [
+          SizedBox(
+            child: CupertinoTextField(
+              controller: _controller,
+              style: TextStyle(fontSize: 14),
+              padding: EdgeInsets.only(left:12,top: 6,bottom: 6,right: 32),
+              placeholder: '输入路由地址导航',
+              onSubmitted: widget.onSubmit,
+              decoration: BoxDecoration(color: Color(0xffF1F2F3),borderRadius: BorderRadius.circular(6)),
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 8.0),
-          child: HoverIconButton(
-            icon: Icons.directions_outlined,
-            defaultColor: Color(0xff68696B),
-            onPressed:()=>widget.onSubmit?.call(_controller.text),
-            size: 20
-          ),
-        )
-      ],
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: HoverIconButton(
+              icon: Icons.directions_outlined,
+              defaultColor: Color(0xff68696B),
+              onPressed:()=>widget.onSubmit?.call(_controller.text),
+              size: 20
+            ),
+          )
+        ],
+      ),
     );
   }
 }

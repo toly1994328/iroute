@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../pages/sort/bloc/state.dart';
+import '../pages/sort/provider/state.dart';
 import 'navigation/router/app_router_delegate.dart';
 import 'navigation/views/app_navigation.dart';
 import 'navigation/views/app_navigation_rail.dart';

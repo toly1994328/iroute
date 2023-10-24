@@ -113,6 +113,7 @@ class _DropSelectableWidgetState extends State<DropSelectableWidget>
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
+            width: _focused ?1:1/View.of(context).devicePixelRatio,
             color: _focused ? Colors.blue : widget.disableColor,
           )),
       child: Row(

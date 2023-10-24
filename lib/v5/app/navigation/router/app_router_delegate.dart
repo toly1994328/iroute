@@ -98,8 +98,7 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
       child = const CounterPage();
     }
     if (path == kDestinationsPaths[2]) {
-      child = LayoutBuilder(
-          builder: (_,cts)=> SortPage(size: Size(cts.maxWidth,cts.maxHeight),));
+      child = SortPage();
     }
     if (path == kDestinationsPaths[3]) {
       child = const UserPage();

@@ -13,35 +13,37 @@ enum SortStatus{
 
 class SortState with ChangeNotifier{
 
+  SortState(){
+    reset();
+  }
+
   SortStatus status = SortStatus.none;
 
   List<int> data = [];
+  List<int> stepData = [];
 
-  SortConfig _config = SortConfig(-1, const Duration(microseconds: 1500),-1,'quick');
+  SortConfig _config = SortConfig();
   SortConfig get config => _config;
   Random random = Random();
 
   set config(SortConfig config){
     _config = config;
-    reset(_zoneSize);
+    reset();
     notifyListeners();
   }
 
-  Size _zoneSize = Size.zero;
 
-  void reset(Size zoneSize){
-    _zoneSize = zoneSize;
-    status = SortStatus.sorting;
+  void reset(){
+    data.clear();
+    status = SortStatus.none;
+    notifyListeners();
     int count = config.count;
-    if(count==-1){
-      count = zoneSize.width~/2;
-    }
     if(config.seed!=-1){
       random = Random(config.seed);
     }
     for (int i = 0; i < count; i++) {
       //随机往数组中填值
-      data.add(random.nextInt(zoneSize.height.toInt()));
+      data.add(random.nextInt(1000));
     }
   }
 
@@ -53,7 +55,6 @@ class SortState with ChangeNotifier{
     if(sortFunction!=null){
       await sortFunction(data,(arr) async {
         await Future.delayed(config.duration);
-        data = arr;
         notifyListeners();
       });
     }
