@@ -14,6 +14,7 @@ class _AppNavigationRailState extends State<AppNavigationRail> {
   final List<MenuMeta> deskNavBarMenus = const [
     MenuMeta(label: '颜色板', icon: Icons.color_lens_outlined),
     MenuMeta(label: '计数器', icon: Icons.add_chart),
+    MenuMeta(label: '排序', icon: Icons.sort),
     MenuMeta(label: '我的', icon: Icons.person),
     MenuMeta(label: '设置', icon: Icons.settings),
   ];

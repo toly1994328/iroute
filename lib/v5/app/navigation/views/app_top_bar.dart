@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iroute/components/components.dart';
+import '../../../pages/sort/functions.dart';
 import '../router/app_router_delegate.dart';
 import 'app_router_editor.dart';
 
@@ -20,7 +21,7 @@ class AppTopBar extends StatelessWidget {
                 child: Row(children: [
               const Spacer(),
               SizedBox(
-                  width: 250,
+                  // width: 200,
                   child: AppRouterEditor(
                     onSubmit: (path) => router.path = path,
                   )),
@@ -52,6 +53,7 @@ Map<String, String> kRouteLabelMap = {
   '/color/detail': '颜色详情',
   '/counter': '计数器',
   '/user': '我的',
+  '/sort': '可视化排序',
   '/settings': '系统设置',
 };
 

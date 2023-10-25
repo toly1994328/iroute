@@ -328,7 +328,6 @@ class _SortPageState extends State<SortPage> {
     // 从最后一个非叶子节点开始，构建最大堆
     for (int i = numbers.length ~/ 2; i >= 0; i--) {
       await heapify(numbers, numbers.length, i);
-      streamController.add(numbers);
     }
 
     // 依次取出最大堆的根节点（最大值），并进行堆化
@@ -361,6 +360,7 @@ class _SortPageState extends State<SortPage> {
     }
 
     await Future.delayed(getDuration()); // 延迟操作，用于可视化排序过程
+    streamController.add(numbers);
   }
 
   ///插入排序
@@ -448,7 +448,7 @@ class _SortPageState extends State<SortPage> {
   ///快速排序
   quickSort(int leftIndex, int rightIndex) async {
     // 定义一个名为 _partition 的异步函数，用于划分数组，并返回划分后的基准元素的索引位置
-    Future<int> _partition(int left, int right) async {
+    Future<int> _partition(int left, int right) async{
       // 选择中间位置的元素作为基准元素
       int p = (left + (right - left) / 2).toInt();
 
