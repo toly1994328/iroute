@@ -33,7 +33,7 @@ dependencies:
   flutter_colorpicker: ^1.0.3
   window_manager: ^0.3.7
   adaptive_navigation: ^0.0.4
-  go_router: ^10.1.0
+  go_router: ^12.0.0
   provider: 6.0.5
   url_launcher: ^6.0.7
   equatable: ^2.0.5
@@ -43,8 +43,6 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  toly_menu:
-    path: E:\Projects\Flutter\packages\toly_menu
 
 dev_dependencies:
   flutter_test:

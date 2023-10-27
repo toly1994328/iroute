@@ -13,6 +13,7 @@ class DropSelectableWidget extends StatefulWidget {
   final double height;
   final double width;
   final double fontSize;
+  final String value;
 
   const DropSelectableWidget(
       {Key? key,
@@ -20,6 +21,7 @@ class DropSelectableWidget extends StatefulWidget {
         this.onDropSelected,
         this.disableColor = Colors.black,
         this.iconSize = 24,
+        required this.value,
         this.height = 30,
         this.width = 200,
         this.fontSize = 14,
@@ -40,7 +42,7 @@ class _DropSelectableWidgetState extends State<DropSelectableWidget>
   late Animation<double> animation;
   final LayerLink layerLink = LayerLink();
 
-  int _selectedIndex = 0;
+  // int _selectedIndex = 0;
 
   @override
   void initState() {
@@ -80,25 +82,31 @@ class _DropSelectableWidgetState extends State<DropSelectableWidget>
   @override
   Widget build(BuildContext context) {
     _nodeAttachment.reparent();
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () {
-        if (_focused) {
-          _node.unfocus();
-        } else {
-          _node.requestFocus();
-        }
+    return TapRegion(
+      groupId: 'selector',
+      onTapOutside: (_){
+        _node.unfocus();
       },
-      child: CompositedTransformTarget(
-        link: layerLink,
-        child: buildTarget(),
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          if (_focused) {
+            _node.unfocus();
+          } else {
+            _node.requestFocus();
+          }
+        },
+        child: CompositedTransformTarget(
+          link: layerLink,
+          child: buildTarget(),
+        ),
       ),
     );
   }
 
   void _showOverlay() {
     _overlayEntry = _createOverlayEntry();
-    Overlay.of(context)?.insert(_overlayEntry!);
+    Overlay.of(context).insert(_overlayEntry!);
   }
 
   void _hideOverlay() {
@@ -113,14 +121,12 @@ class _DropSelectableWidgetState extends State<DropSelectableWidget>
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            width: _focused ?1:1/View.of(context).devicePixelRatio,
             color: _focused ? Colors.blue : widget.disableColor,
           )),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            widget.data.isNotEmpty ? widget.data[_selectedIndex] : "暂无数据",style: TextStyle(
+          Text( widget.value ,style: TextStyle(
               height: 1,
               fontSize: widget.fontSize
           ),),
@@ -139,6 +145,7 @@ class _DropSelectableWidgetState extends State<DropSelectableWidget>
       ),
     );
   }
+
 
   OverlayEntry _createOverlayEntry() => OverlayEntry(
     builder: (BuildContext context) => UnconstrainedBox(
@@ -179,20 +186,22 @@ class _DropSelectableWidgetState extends State<DropSelectableWidget>
   );
 
   Widget _buildItem(BuildContext context, int index) {
-    return Material(
-      child: InkWell(
-        onTap: () {
-          if (_selectedIndex != index) widget.onDropSelected?.call(index);
-          _selectedIndex = index;
-          _overlayEntry?.markNeedsBuild();
-          _node.unfocus();
-        },
-        child: Container(
-            padding: const EdgeInsets.all(8),
-            color: index == _selectedIndex
-                ? Colors.blue.withOpacity(0.2)
-                : Colors.transparent,
-            child: Text(widget.data[index],style: TextStyle(fontSize: widget.fontSize),)),
+
+   bool active =  widget.data[index] == widget.value;
+    return TapRegion(
+      groupId: 'selector',
+      child: Material(
+        child: InkWell(
+          onTap: () {
+            if (!active) widget.onDropSelected?.call(index);
+            _overlayEntry?.markNeedsBuild();
+            _node.unfocus();
+          },
+          child: Container(
+              padding: const EdgeInsets.all(8),
+              color: active ? Colors.blue.withOpacity(0.2) : Colors.transparent,
+              child: Text(widget.data[index],style: TextStyle(fontSize: widget.fontSize),)),
+        ),
       ),
     );
   }

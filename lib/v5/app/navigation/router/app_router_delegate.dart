@@ -7,16 +7,14 @@ import '../../../pages/color/color_detail_page.dart';
 import '../../../pages/color/color_page.dart';
 import '../../../pages/empty/empty_page.dart';
 import '../../../pages/settings/settings_page.dart';
-import '../../../pages/user/user_page.dart';
 import '../../../pages/counter/counter_page.dart';
-import '../../../pages/sort/views/sort_page.dart';
+import '../../../pages/user/user_page.dart';
 import '../transition/fade_transition_page.dart';
 import '../../../pages/color/color_add_page.dart';
 
 const List<String> kDestinationsPaths = [
   '/color',
   '/counter',
-  '/sort',
   '/user',
   '/settings',
 ];
@@ -27,13 +25,14 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
   String _path = '/color';
 
   String get path => _path;
-
+  AppRouterDelegate(){
+    // keepAlivePath.add('/color');
+  }
   int? get activeIndex {
     if(path.startsWith('/color')) return 0;
     if(path.startsWith('/counter')) return 1;
-    if(path.startsWith('/sort')) return 2;
-    if(path.startsWith('/user')) return 3;
-    if(path.startsWith('/settings')) return 4;
+    if(path.startsWith('/user')) return 2;
+    if(path.startsWith('/settings')) return 3;
     return null;
   }
 
@@ -41,28 +40,29 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
 
   Completer<dynamic>? completer;
 
-  final Map<String,List<Page>> _alivePageMap = {};
+  final Map<String,dynamic> _pathExtraMap = {};
+
+  final List<String> keepAlivePath = [] ;
 
   void setPathKeepLive(String value){
-    _alivePageMap[value] = _buildPageByPath(value);
+    if(keepAlivePath.contains(value)){
+      keepAlivePath.remove(value);
+    }
+    keepAlivePath.add(value);
     path = value;
   }
 
-  final Map<String,dynamic> _pathExtraMap = {};
-
-  FutureOr<dynamic> changePath(String value,{bool forResult=false,Object? extra}){
-    if(forResult){
-      _completerMap[value] = Completer();
-    }
-    if(extra!=null){
-      _pathExtraMap[value] = extra;
-    }
-
-    if(forResult){
-      return _completerMap[value]!.future;
-    }
+  void setPathForData(String value,dynamic data){
+    _pathExtraMap[value] = data;
+    path = value;
   }
 
+  Future<dynamic> changePathForResult(String value) async{
+    Completer<dynamic> completer = Completer();
+    _completerMap[value] = completer;
+    path = value;
+    return completer.future;
+  }
 
   set path(String value) {
     if (_path == value) return;
@@ -72,20 +72,28 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
 
   @override
   Widget build(BuildContext context) {
-    List<Page> pages = [];
-    if(_alivePageMap.containsKey(path)){
-      pages = _alivePageMap[path]!;
-    }else{
-      for (var element in _alivePageMap.values) {
-        pages.addAll(element);
-      }
-      pages.addAll(_buildPageByPath(path));
-    }
-
     return Navigator(
       onPopPage: _onPopPage,
-      pages: pages.toSet().toList(),
+      pages: _buildPages(path),
     );
+  }
+
+  List<Page> _buildPages(path){
+    List<Page> pages = [];
+    List<Page> topPages = _buildPageByPath(path);
+
+    if(keepAlivePath.isNotEmpty){
+      for (String alivePath in keepAlivePath) {
+        if(alivePath!=path){
+          pages.addAll(_buildPageByPath(alivePath)) ;
+        }
+      }
+      /// 去除和 topPages 中重复的界面
+      pages.removeWhere((element) => topPages.map((e) => e.key).contains(element.key));
+    }
+
+    pages.addAll(topPages);
+    return pages;
   }
 
   List<Page> _buildPageByPath(String path) {
@@ -98,12 +106,9 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
       child = const CounterPage();
     }
     if (path == kDestinationsPaths[2]) {
-      child = SortPage();
-    }
-    if (path == kDestinationsPaths[3]) {
       child = const UserPage();
     }
-    if (path == kDestinationsPaths[4]) {
+    if (path == kDestinationsPaths[3]) {
       child = const SettingPage();
     }
     return [
@@ -127,10 +132,9 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
       if(segment =='detail'){
         final Map<String, String> queryParams = uri.queryParameters;
         String? selectedColor = queryParams['color'];
-
         if (selectedColor != null) {
           Color color = Color(int.parse(selectedColor, radix: 16));
-          result.add( FadeTransitionPage(
+          result.add(FadeTransitionPage(
             key: const ValueKey('/color/detail'),
             child:ColorDetailPage(color: color),
           ));

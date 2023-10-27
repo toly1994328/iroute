@@ -10,11 +10,13 @@ class SortBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SortState state = SortStateScope.of(context);
     return  Row(
       children: [
         const SortButton(),
         const SizedBox(width: 10,),
         DropSelectableWidget(
+          value: sortNameMap[state.config.name]!,
           fontSize: 12,
           data: sortNameMap.values.toList(),
           iconSize: 20,
