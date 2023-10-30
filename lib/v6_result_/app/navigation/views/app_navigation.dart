@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../router/app_router_delegate.dart';
 import 'app_navigation_rail.dart';
-import 'app_top_bar/app_top_bar.dart';
+import 'app_top_bar.dart';
 
 class AppNavigation extends StatelessWidget {
   const AppNavigation({super.key});

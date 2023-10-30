@@ -38,12 +38,11 @@ class _ColorPageState extends State<ColorPage> {
   void _selectColor(Color color){
     // String value = color.value.toRadixString(16);
     // router.path = '/color/detail?color=$value';
-    router.setPathForData('/color/detail',color);
-
+    router.changePath('/color/detail',extra: color);
   }
 
   void _toAddPage() async {
-   Color? color = await router.changePathForResult('/color/add');
+   Color? color = await router.changePath('/color/add',forResult: true);
    if (color != null) {
      setState(() {
        _colors.add(color);

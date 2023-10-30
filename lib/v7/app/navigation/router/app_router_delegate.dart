@@ -1,16 +1,7 @@
 import 'dart:async';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
-import '../../../pages/color/color_detail_page.dart';
-import '../../../pages/color/color_page.dart';
-import '../../../pages/empty/empty_page.dart';
-import '../../../pages/settings/settings_page.dart';
-import '../../../pages/counter/counter_page.dart';
-import '../../../pages/user/user_page.dart';
-import '../transition/fade_transition_page.dart';
-import '../../../pages/color/color_add_page.dart';
+import 'iroute.dart';
 import 'route_history.dart';
 
 const List<String> kDestinationsPaths = [
@@ -103,33 +94,38 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
 
   final List<String> keepAlivePath = [];
 
-  void setPathKeepLive(String value) {
-    if (keepAlivePath.contains(value)) {
-      keepAlivePath.remove(value);
+  FutureOr<dynamic> changePath(
+      String value, {
+        bool forResult = false,
+        Object? extra,
+        bool keepAlive = false,
+        bool recordHistory = true,
+      }) {
+    if (_path == value) null;
+    if (forResult) {
+      _completerMap[value] = Completer();
     }
-    keepAlivePath.add(value);
-    path = value;
-  }
+    if (keepAlive) {
+      if (keepAlivePath.contains(value)) {
+        keepAlivePath.remove(value);
+      }
+      keepAlivePath.add(value);
+    }
+    if (extra != null) {
+      _pathExtraMap[value] = extra;
+    }
 
-  void setPathForData(String value, dynamic data) {
-    _pathExtraMap[value] = data;
-    path = value;
-  }
+    if (recordHistory) {
+      _addPathToHistory(value,extra);
+    }
 
-  Future<dynamic> changePathForResult(String value) async {
-    Completer<dynamic> completer = Completer();
-    _completerMap[value] = completer;
-    path = value;
-    return completer.future;
-  }
-
-  set path(String value) {
-    if (_path == value) return;
     _path = value;
-    /// 将路由加入历史列表
-    _addPathToHistory(value,_pathExtraMap[path]);
     notifyListeners();
+    if (forResult) {
+      return _completerMap[value]!.future;
+    }
   }
+
 
   void _addPathToHistory(String value, Object? extra) {
     if (_histories.isNotEmpty && value == _histories.last.path) return;
@@ -143,88 +139,52 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
   Widget build(BuildContext context) {
     return Navigator(
       onPopPage: _onPopPage,
-      pages: _buildPages(path),
+      pages: _buildPages(context, path),
     );
   }
 
-  List<Page> _buildPages(path) {
+  List<Page> _buildPages(BuildContext context, String path) {
     List<Page> pages = [];
-    List<Page> topPages = _buildPageByPath(path);
+    List<Page> topPages = _buildPageByPathFromTree(context, path);
 
     if (keepAlivePath.isNotEmpty) {
       for (String alivePath in keepAlivePath) {
         if (alivePath != path) {
-          pages.addAll(_buildPageByPath(alivePath));
+          pages.addAll(_buildPageByPathFromTree(context, alivePath));
         }
       }
 
       /// 去除和 topPages 中重复的界面
       pages.removeWhere(
-          (element) => topPages.map((e) => e.key).contains(element.key));
+              (element) => topPages.map((e) => e.key).contains(element.key));
     }
 
     pages.addAll(topPages);
     return pages;
   }
 
-  List<Page> _buildPageByPath(String path) {
-    Widget? child;
-    if (path.startsWith('/color')) {
-      return buildColorPages(path);
-    }
-
-    if (path == kDestinationsPaths[1]) {
-      child = const CounterPage();
-    }
-    if (path == kDestinationsPaths[2]) {
-      child = const UserPage();
-    }
-    if (path == kDestinationsPaths[3]) {
-      child = const SettingPage();
-    }
-    return [
-      FadeTransitionPage(
-        key: ValueKey(path),
-        child: child ?? const EmptyPage(),
-      )
-    ];
-  }
-
-  List<Page> buildColorPages(String path) {
+  List<Page> _buildPageByPathFromTree(BuildContext context, String path) {
     List<Page> result = [];
-    Uri uri = Uri.parse(path);
-    for (String segment in uri.pathSegments) {
-      if (segment == 'color') {
-        result.add(const FadeTransitionPage(
-          key: ValueKey('/color'),
-          child: ColorPage(),
-        ));
-      }
-      if (segment == 'detail') {
-        final Map<String, String> queryParams = uri.queryParameters;
-        String? selectedColor = queryParams['color'];
-        if (selectedColor != null) {
-          Color color = Color(int.parse(selectedColor, radix: 16));
-          result.add(FadeTransitionPage(
-            key: const ValueKey('/color/detail'),
-            child: ColorDetailPage(color: color),
-          ));
-        } else {
-          Color? selectedColor = _pathExtraMap[path];
-          if (selectedColor != null) {
-            result.add(FadeTransitionPage(
-              key: const ValueKey('/color/detail'),
-              child: ColorDetailPage(color: selectedColor),
-            ));
-            _pathExtraMap.remove(path);
-          }
+    List<IRoute> iRoutes = root.find(path);
+    if (iRoutes.isNotEmpty) {
+      for (int i = 0; i < iRoutes.length; i++) {
+        IRoute iroute = iRoutes[i];
+        String path = iroute.path;
+        Object? extra = _pathExtraMap[path];
+        bool keepAlive = keepAlivePath.contains(path);
+        bool forResult = _completerMap.containsKey(path);
+        Page? page = iroute.builder?.call(
+          context,
+          IRouteData(
+            uri: Uri.parse(path),
+            extra: extra,
+            keepAlive: keepAlive,
+            forResult: forResult,
+          ),
+        );
+        if (page != null) {
+          result.add(page);
         }
-      }
-      if (segment == 'add') {
-        result.add(const FadeTransitionPage(
-          key: ValueKey('/color/add'),
-          child: ColorAddPage(),
-        ));
       }
     }
     return result;
@@ -242,7 +202,7 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
       _completerMap.remove(path);
     }
 
-    path = backPath(path);
+    changePath(backPath(path),recordHistory: false);
     return route.didPop(result);
   }
 

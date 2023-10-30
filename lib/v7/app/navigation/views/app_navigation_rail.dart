@@ -53,9 +53,9 @@ class _AppNavigationRailState extends State<AppNavigationRail> {
 
   void _onDestinationSelected(int index) {
     if(index==1){
-      router.setPathKeepLive(kDestinationsPaths[index]);
+      router.changePath(kDestinationsPaths[index],keepAlive: true);
     }else{
-      router.path=kDestinationsPaths[index];
+      router.changePath(kDestinationsPaths[index]);
     }
   }
 

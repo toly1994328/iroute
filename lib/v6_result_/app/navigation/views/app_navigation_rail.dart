@@ -41,7 +41,7 @@ class _AppNavigationRailState extends State<AppNavigationRail> {
         ),
         tail: Padding(
           padding: const EdgeInsets.only(bottom: 6.0),
-          child: Text('V0.0.6',style: TextStyle(color: Colors.white,fontSize: 12),),
+          child: Text('V0.0.5',style: TextStyle(color: Colors.white,fontSize: 12),),
         ),
         backgroundColor: const Color(0xff3975c6),
         onDestinationSelected: _onDestinationSelected,
@@ -53,9 +53,9 @@ class _AppNavigationRailState extends State<AppNavigationRail> {
 
   void _onDestinationSelected(int index) {
     if(index==1){
-      router.setPathKeepLive(kDestinationsPaths[index]);
+      router.changePath(kDestinationsPaths[index],keepAlive: true);
     }else{
-      router.path=kDestinationsPaths[index];
+      router.path = kDestinationsPaths[index];
     }
   }
 
