@@ -4,6 +4,8 @@ class MenuMeta {
   // 标签
   final String label;
 
+  final String? path;
+
   // 图标数据
   final IconData icon;
 
@@ -12,6 +14,7 @@ class MenuMeta {
 
   const MenuMeta({
     required this.label,
+    this.path,
     required this.icon,
     this.color,
   });

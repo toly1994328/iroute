@@ -16,7 +16,7 @@ class HoverIconButton extends StatefulWidget {
     this.hoverColor,
     this.size = 24,
     this.defaultColor,
-    this.cursor = SystemMouseCursors.cell,
+    this.cursor = SystemMouseCursors.click,
   });
 
   @override

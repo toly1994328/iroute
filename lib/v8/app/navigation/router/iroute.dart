@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 import 'iroute_config.dart';
 
 typedef IRoutePageBuilder = Page? Function(
@@ -64,12 +65,10 @@ class IRoute extends IRouteNode {
   final IRoutePageBuilder? pageBuilder;
   final IRouteWidgetBuilder? widgetBuilder;
   final Widget? widget;
-  final Map<String,dynamic>? mata;
 
   const IRoute({
     required super.path,
     super.children = const [],
-    this.mata,
     this.widget,
     this.pageBuilder,
     this.widgetBuilder,
@@ -92,8 +91,7 @@ class IRoute extends IRouteNode {
   }
 }
 
-
-
+/// 未知路由
 class NotFindNode extends IRouteNode{
   NotFindNode({required super.path, super.children= const[]});
 
@@ -102,4 +100,16 @@ class NotFindNode extends IRouteNode{
     return null;
   }
 }
+
+class CellIRouter extends IRoute {
+  final CellBuilder cellBuilder;
+
+  CellIRouter(
+      {required super.path,
+      super.pageBuilder,
+      super.children,
+      required this.cellBuilder});
+}
+
+typedef CellBuilder = Widget Function(BuildContext context, Widget child);
 
