@@ -44,6 +44,7 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
 
   final List<String> keepAlivePath = [] ;
 
+
   void setPathKeepLive(String value){
     if(keepAlivePath.contains(value)){
       keepAlivePath.remove(value);
@@ -51,6 +52,8 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
     keepAlivePath.add(value);
     path = value;
   }
+
+
 
   void setPathForData(String value,dynamic data){
     _pathExtraMap[value] = data;
@@ -81,6 +84,17 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
   List<Page> _buildPages(path){
     List<Page> pages = [];
     List<Page> topPages = _buildPageByPath(path);
+
+    if(keepAlivePath.isNotEmpty){
+      for (String alivePath in keepAlivePath) {
+        if(alivePath!=path){
+          pages.addAll(_buildPageByPath(alivePath)) ;
+        }
+      }
+      /// 去除和 topPages 中重复的界面
+      pages.removeWhere((element) => topPages.map((e) => e.key).contains(element.key));
+    }
+
 
     if(keepAlivePath.isNotEmpty){
       for (String alivePath in keepAlivePath) {
@@ -171,7 +185,6 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
       _completerMap[path]?.complete(result);
       _completerMap.remove(path);
     }
-
     path = backPath(path);
     return route.didPop(result);
   }

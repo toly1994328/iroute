@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../provider/state.dart';
+import '../../provider/state.dart';
 
 class SortButton extends StatelessWidget {
   const SortButton({super.key});
@@ -49,7 +49,6 @@ class SortButton extends StatelessWidget {
             ),
             const SizedBox(width: 4,),
             Text(text,style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: color),),
-
           ],
         ),
       ),

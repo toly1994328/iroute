@@ -23,15 +23,15 @@ class SortPage extends StatelessWidget {
               children: [
                 Container(
                   // color: Color(0xffF4F4F4),
-                  padding: EdgeInsets.symmetric(horizontal: 12,vertical: 8),
-                  child:  Row(
+                  padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 8),
+                  child:  const Row(
                     children: [
                       SortButton(),
                       Spacer(),
                     ],
                   ),
                 ),
-                Divider(height: 1,),
+                const Divider(height: 1,),
                 Expanded(
                   child: SortSelectorPanel(
                     active: state.config.name,
@@ -43,56 +43,21 @@ class SortPage extends StatelessWidget {
               ],
             ),
           ),
-          VerticalDivider(width: 1,),
+          const VerticalDivider(width: 1,),
           Expanded(
-            child:  NavigatorScope(),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: CustomPaint(
+                painter: DataPainter(data: numbers),
+                child: ConstrainedBox(constraints: const BoxConstraints.expand()),
+              ),
+            ),
           )
         ],
       ),
     );
   }
-
-  void _onSelected(String value) {
-
-  }
 }
-
-final GlobalKey key = GlobalKey();
-
-class NavigatorScope extends StatefulWidget {
-  const NavigatorScope({super.key});
-
-  @override
-  State<NavigatorScope> createState() => _NavigatorScopeState();
-}
-
-class _NavigatorScopeState extends State<NavigatorScope> {
-
-  @override
-  Widget build(BuildContext context) {
-    SortState state = SortStateScope.of(context);
-    List<int> numbers = state.data;
-    return Navigator(
-      onPopPage: _onPopPage,
-      key: key,
-      pages: [
-        MaterialPage(child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: CustomPaint(
-            painter: DataPainter(data: numbers),
-            child: ConstrainedBox(constraints: BoxConstraints.expand()),
-          ),
-        ))
-      ],
-    );
-  }
-
-  bool _onPopPage(Route<dynamic> route, result) {
-    return route.didPop(result);
-  }
-}
-
-
 
 class SortSelectorPanel extends StatelessWidget {
   final String active;
@@ -105,7 +70,7 @@ class SortSelectorPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      padding: EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       itemExtent: 46,
       itemCount: sortNameMap.length,
       itemBuilder: _buildByIndex,
@@ -145,9 +110,9 @@ class _SortItemTileState extends State<SortItemTile> {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(6),
-              color: widget.selected?Color(0xffE6F0FF):null
+              color: widget.selected?const Color(0xffE6F0FF):null
             ),
-            padding: EdgeInsets.only(left: 12),
+            padding: const EdgeInsets.only(left: 12),
             alignment: Alignment.centerLeft,
             child: Text(
               widget.title,
