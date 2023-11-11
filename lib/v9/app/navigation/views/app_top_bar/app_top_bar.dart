@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iroute/components/components.dart';
 import '../../router/app_router_delegate.dart';
+import '../../router/routes.dart';
 import '../../router/views/route_back_indicator.dart';
 import 'app_router_editor.dart';
 import 'history_view_icon.dart';
@@ -54,16 +55,6 @@ class RouterIndicator extends StatefulWidget {
   State<RouterIndicator> createState() => _RouterIndicatorState();
 }
 
-Map<String, String> kRouteLabelMap = {
-  '/color': '颜色板',
-  '/color/add': '添加颜色',
-  '/color/detail': '颜色详情',
-  '/counter': '计数器',
-  '/sort': '可视化排序算法',
-  '/sort/settings': '排序配置',
-  '/user': '我的',
-  '/settings': '系统设置',
-};
 
 class _RouterIndicatorState extends State<RouterIndicator> {
   @override
@@ -107,7 +98,9 @@ class _RouterIndicatorState extends State<RouterIndicator> {
     for (String segment in uri.pathSegments) {
       to += '/$segment';
       String label = kRouteLabelMap[to] ?? '未知路由';
-      result.add(BreadcrumbItem(to: to, label: label, active: to == distPath));
+      if(label.isNotEmpty){
+        result.add(BreadcrumbItem(to: to, label: label, active: to == distPath));
+      }
     }
     return result;
   }

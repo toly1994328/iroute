@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:iroute/v9/app/navigation/router/views/navigator_scope.dart';
 import 'iroute.dart';
 import 'iroute_config.dart';
 import 'route_history_manager.dart';
@@ -7,11 +8,12 @@ import 'routes.dart';
 import 'views/not_find_view.dart';
 
 AppRouterDelegate router = AppRouterDelegate(
-  initial: IRouteConfig(uri: Uri.parse('/color')),
-);
+    initial: IRouteConfig(
+      uri: Uri.parse('/app/color'),
+    ),
+    node: appRoute);
 
 class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
-
   /// 核心数据，路由配置数据列表
   final List<IRouteConfig> _configs = [];
 
@@ -21,8 +23,11 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
 
   final IRoutePageBuilder? notFindPageBuilder;
 
+  final IRouteNode node;
+
   AppRouterDelegate({
     this.notFindPageBuilder,
+    required this.node,
     required IRouteConfig initial,
   }) {
     _configs.add(initial);
@@ -57,7 +62,8 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
 
   // final List<IRouteConfig> _pathStack = [];
 
-  bool get canPop => _configs.where((e) => e.routeStyle==RouteStyle.push).isNotEmpty;
+  bool get canPop =>
+      _configs.where((e) => e.routeStyle == RouteStyle.push).isNotEmpty;
 
   final Map<String, Completer<dynamic>> _completerMap = {};
 
@@ -80,7 +86,7 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
     }
   }
 
-  void _handleChangeStyle(IRouteConfig config){
+  void _handleChangeStyle(IRouteConfig config) {
     switch (config.routeStyle) {
       case RouteStyle.push:
         if (_configs.contains(config)) {
@@ -89,9 +95,10 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
         _configs.add(config);
         break;
       case RouteStyle.replace:
-        List<IRouteConfig> liveRoutes = _configs.where((e) => e.keepAlive&&e!=config).toList();
+        List<IRouteConfig> liveRoutes =
+            _configs.where((e) => e.keepAlive && e != config).toList();
         _configs.clear();
-        _configs.addAll([...liveRoutes,config]);
+        _configs.addAll([...liveRoutes, config]);
         break;
     }
   }
@@ -101,7 +108,7 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
     bool forResult = false,
     Object? extra,
     bool keepAlive = false,
-    bool recordHistory = true,
+    bool recordHistory = false,
     RouteStyle style = RouteStyle.replace,
   }) {
     return changeRoute(IRouteConfig(
@@ -116,15 +123,29 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
 
   @override
   Widget build(BuildContext context) {
-    return Navigator(
+    return NavigatorScope(
+      node: node,
       onPopPage: _onPopPage,
-      pages: _buildPages(context, _configs),
+      configs: _configs,
+      notFindPageBuilder: (notFindPageBuilder ?? _defaultNotFindPageBuilder),
     );
+    // return Navigator(
+    //   onPopPage: _onPopPage,
+    //   pages: [
+    //     MaterialPage(child: NavigatorScope(
+    //       cellNode: cellNode,
+    //       onPopPage: _onPopPage,
+    //       configs: _configs,
+    //       notFindPageBuilder: (notFindPageBuilder ?? _defaultNotFindPageBuilder),
+    //     ))
+    //   ],
+    // );
   }
 
   List<Page> _buildPages(BuildContext context, List<IRouteConfig> configs) {
     IRouteConfig top = configs.last;
-    List<IRouteConfig> bottoms = _configs.sublist(0,_configs.length-1).toList();
+    List<IRouteConfig> bottoms =
+        _configs.sublist(0, _configs.length - 1).toList();
     List<Page> pages = [];
     List<Page> topPages = _buildPageByPathFromTree(context, top);
     pages = _buildLivePageByPathList(context, bottoms, top, topPages);
@@ -145,8 +166,10 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
           pages.addAll(_buildPageByPathFromTree(context, path));
         }
       }
+
       /// 去除和 curPages 中重复的界面
-      pages.removeWhere((page) => curPages.map((e) => e.key).contains(page.key));
+      pages
+          .removeWhere((page) => curPages.map((e) => e.key).contains(page.key));
     }
     return pages;
   }
@@ -161,14 +184,15 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
         config = config.copyWith(path: iroute.path);
         Page? page;
         if (iroute is NotFindNode) {
-          page = (notFindPageBuilder ?? _defaultNotFindPageBuilder)(context, config);
+          page = (notFindPageBuilder ?? _defaultNotFindPageBuilder)(
+              context, config);
         } else {
           page = iroute.createPage(context, config);
         }
         if (page != null) {
           result.add(page);
         }
-        if(iroute is CellIRoute){
+        if (iroute is CellIRoute) {
           break;
         }
       }
@@ -199,7 +223,7 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
       _completerMap.remove(path);
     }
 
-    if (_configs.isNotEmpty) {
+    if (_configs.length > 1) {
       _configs.removeLast();
       notifyListeners();
     } else {

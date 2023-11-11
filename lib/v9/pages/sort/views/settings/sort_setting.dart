@@ -38,26 +38,27 @@ class _SortSettingsState extends State<SortSettings> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: Align(
-          child: MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              onTap: (){
-                Navigator.of(context).pop();
-              },
-              child: Container(
-                  width: 28,
-                  height: 28,
-                  margin: EdgeInsets.only(right: 8,left: 8),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: Color(0xffE3E5E7),
-                      borderRadius: BorderRadius.circular(6)
-                  ),
-                  child: Icon(Icons.arrow_back_ios_new,size: 18,)),
-            ),
-          ),
-        ),
+        automaticallyImplyLeading: false,
+        // leading: Align(
+        //   child: MouseRegion(
+        //     cursor: SystemMouseCursors.click,
+        //     child: GestureDetector(
+        //       onTap: (){
+        //         Navigator.of(context).pop();
+        //       },
+        //       child: Container(
+        //           width: 28,
+        //           height: 28,
+        //           margin: EdgeInsets.only(right: 8,left: 8),
+        //           alignment: Alignment.center,
+        //           decoration: BoxDecoration(
+        //               color: Color(0xffE3E5E7),
+        //               borderRadius: BorderRadius.circular(6)
+        //           ),
+        //           child: Icon(Icons.arrow_back_ios_new,size: 18,)),
+        //     ),
+        //   ),
+        // ),
         // leading: BackButton(),
         actions: [
           Padding(

@@ -18,6 +18,18 @@ class _ColorPageState extends State<ColorPage> {
   ];
 
   @override
+  void initState() {
+    print('======_ColorPageState#initState==============');
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    print('======_ColorPageState#dispose==============');
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar: AppBar(title:const Text('颜色主页')),
@@ -38,12 +50,12 @@ class _ColorPageState extends State<ColorPage> {
   void _selectColor(Color color){
     // String value = color.value.toRadixString(16);
     // router.path = '/color/detail?color=$value';
-    router.changePath('/color/detail_error',extra: color);
+    router.changePath('/app/color/detail',extra: color);
 
   }
 
   void _toAddPage() async {
-   Color? color = await router.changePath('/color/add',forResult: true,recordHistory: false);
+   Color? color = await router.changePath('/app/color/add',forResult: true,recordHistory: false);
    if (color != null) {
      setState(() {
        _colors.add(color);

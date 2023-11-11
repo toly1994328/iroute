@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'navigation/router/app_router_delegate.dart';
 import '../pages/sort/provider/state.dart';
 import 'navigation/transition/fade_page_transitions_builder.dart';
 import 'navigation/views/app_navigation.dart';
@@ -12,7 +13,8 @@ class UnitApp extends StatelessWidget {
 
     return SortStateScope(
       notifier: SortState(),
-      child: MaterialApp(
+      child: MaterialApp.router(
+          routerDelegate: router,
           theme: ThemeData(
             fontFamily: "宋体",
               scaffoldBackgroundColor: Colors.white,
@@ -34,7 +36,7 @@ class UnitApp extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ))),
           debugShowCheckedModeBanner: false,
-          home: AppNavigation()
+          // home: AppNavigation()
       ),
     );
   }

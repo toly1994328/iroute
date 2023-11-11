@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iroute/v9/app/navigation/router/views/navigator_scope.dart';
 
 import 'iroute_config.dart';
 
@@ -6,6 +7,8 @@ typedef IRoutePageBuilder = Page? Function(
   BuildContext context,
   IRouteConfig data,
 );
+
+
 
 typedef IRouteWidgetBuilder = Widget? Function(
   BuildContext context,
@@ -26,7 +29,15 @@ abstract class IRouteNode {
   List<IRouteNode> find(
     String input,
   ) {
-    return findNodes(this, Uri.parse(input), 0, '/', []);
+    String prefix = '/';
+    if (this is CellIRoute) {
+      input = input.replaceFirst(path, '');
+      if (path != '/') {
+        prefix = path + "/";
+      }
+    }
+
+    return findNodes(this, Uri.parse(input), 0, prefix, []);
   }
 
   List<IRouteNode> findNodes(
@@ -43,6 +54,7 @@ abstract class IRouteNode {
     String target = parts[deep];
     if (node.children.isNotEmpty) {
       target = prefix + target;
+
       List<IRouteNode> nodes =
           node.children.where((e) => e.path == target).toList();
       bool match = nodes.isNotEmpty;
@@ -103,14 +115,43 @@ class NotFindNode extends IRouteNode {
   }
 }
 
+typedef CellBuilder = Widget Function(
+  BuildContext context,
+  IRouteConfig config,
+  Widget navigator,
+);
 
-class CellIRoute extends IRoute {
+typedef CellIRoutePageBuilder = Page? Function(
+    BuildContext context,
+    IRouteConfig data,
+    Widget child,
+    );
+
+class CellIRoute extends IRouteNode {
+  final CellBuilder cellBuilder;
+  final CellIRoutePageBuilder? pageBuilder;
+
   const CellIRoute({
+    required this.cellBuilder,
+    this.pageBuilder,
     required super.path,
-    super.pageBuilder,
-    super.children,
-    super.widget,
+    required super.children,
   });
-}
 
-typedef CellBuilder = Widget Function(BuildContext context,IRouteConfig config, CellIRoute cell);
+  @override
+  Page? createPage(BuildContext context, IRouteConfig config) {
+    return null;
+  }
+
+  Page? createCellPage(BuildContext context, IRouteConfig config,
+      Widget child) {
+    if (pageBuilder != null) {
+      return pageBuilder!(context, config, child);
+    }
+    print("======CellIRoute#createCellPage${config.pageKey}=================");
+    return MaterialPage(
+      child: child,
+      key: config.pageKey,
+    );
+  }
+}

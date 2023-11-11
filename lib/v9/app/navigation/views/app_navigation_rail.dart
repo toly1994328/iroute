@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iroute/components/components.dart';
 import '../router/app_router_delegate.dart';
 import '../router/iroute_config.dart';
+import '../router/routes.dart';
 
 class AppNavigationRail extends StatefulWidget {
   const AppNavigationRail({super.key});
@@ -11,13 +12,6 @@ class AppNavigationRail extends StatefulWidget {
 }
 
 class _AppNavigationRailState extends State<AppNavigationRail> {
-  final List<MenuMeta> deskNavBarMenus = const [
-    MenuMeta(label: '颜色板', icon: Icons.color_lens_outlined, path: '/color'),
-    MenuMeta(label: '计数器', icon: Icons.add_chart, path: '/counter'),
-    MenuMeta(label: '排序', icon: Icons.sort, path: '/sort'),
-    MenuMeta(label: '我的', icon: Icons.person, path: '/user'),
-    MenuMeta(label: '设置', icon: Icons.settings, path: '/settings'),
-  ];
 
   @override
   void initState() {
@@ -54,14 +48,14 @@ class _AppNavigationRailState extends State<AppNavigationRail> {
     );
   }
 
-  RegExp _segReg = RegExp(r'/\w+');
+  RegExp _segReg = RegExp(r'/app/\w+');
 
   int? get activeIndex {
     String path = router.path;
     RegExpMatch? match = _segReg.firstMatch(path);
     if (match == null) return null;
     String? target = match.group(0);
-    int index = deskNavBarMenus.indexWhere((menu) => menu.path == target);
+    int index = deskNavBarMenus.indexWhere((menu) => menu.path!.contains(target??''));
     if (index == -1) return null;
     return index;
   }

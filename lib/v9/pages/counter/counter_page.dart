@@ -10,6 +10,18 @@ class CounterPage extends StatefulWidget {
 class _CounterPageState extends State<CounterPage> {
   int _counter = 0;
 
+  @override
+  void initState() {
+    print('======_CounterPageState#initState==============');
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    print('======_CounterPageState#dispose==============');
+    super.dispose();
+  }
+
   void _incrementCounter() {
     setState(() {
       _counter++;

@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iroute/v9/app/navigation/router/iroute_config.dart';
 import '../player/sort_player.dart';
 import '../../../../app/navigation/router/app_router_delegate.dart';
 import '../settings/sort_setting.dart';
@@ -10,14 +11,10 @@ import 'sort_button.dart';
 import '../../functions.dart';
 import '../../provider/state.dart';
 
-class SortPage extends StatefulWidget {
-  const SortPage({super.key});
+class SortNavigation extends StatelessWidget {
+  final Widget navigator;
+  const SortNavigation({super.key, required this.navigator});
 
-  @override
-  State<SortPage> createState() => _SortPageState();
-}
-
-class _SortPageState extends State<SortPage> {
   @override
   Widget build(BuildContext context) {
     return  Material(
@@ -31,7 +28,7 @@ class _SortPageState extends State<SortPage> {
             width: 1,
           ),
           Expanded(
-            child: SortNavigatorScope(),
+            child: navigator,
           )
         ],
       ),
@@ -68,7 +65,7 @@ class SortRailPanel extends StatelessWidget {
                 cursor: SystemMouseCursors.click,
                 child: GestureDetector(
                     onTap: () {
-                      router.changePath('/sort/settings');
+                      router.changePath('/app/sort/settings',style: RouteStyle.push);
                     },
                     child: const Icon(
                       CupertinoIcons.settings,
@@ -87,7 +84,7 @@ class SortRailPanel extends StatelessWidget {
             options: sortNameMap.values.toList(),
             onSelected: (name) {
               state.selectName(name);
-              router.changePath('/sort');
+              router.changePath('/sort/player');
             },
           ),
         ),
