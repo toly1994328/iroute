@@ -96,12 +96,14 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
     }
   }
 
+
+
   FutureOr<dynamic> changePath(
     String value, {
     bool forResult = false,
     Object? extra,
     bool keepAlive = false,
-    bool recordHistory = true,
+    bool recordHistory = false,
     RouteStyle style = RouteStyle.replace,
   }) {
     return changeRoute(IRouteConfig(
@@ -158,12 +160,15 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
     if (iRoutes.isNotEmpty) {
       for (int i = 0; i < iRoutes.length; i++) {
         IRouteNode iroute = iRoutes[i];
-        config = config.copyWith(path: iroute.path);
+        IRouteConfig fixConfig = config;
+        if(iroute.path!=config.uri.path){
+          fixConfig = IRouteConfig(uri: Uri.parse(iroute.path));
+        }
         Page? page;
         if (iroute is NotFindNode) {
           page = (notFindPageBuilder ?? _defaultNotFindPageBuilder)(context, config);
         } else {
-          page = iroute.createPage(context, config);
+          page = iroute.createPage(context, fixConfig);
         }
         if (page != null) {
           result.add(page);
@@ -199,7 +204,7 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
       _completerMap.remove(path);
     }
 
-    if (_configs.isNotEmpty) {
+    if (canPop) {
       _configs.removeLast();
       notifyListeners();
     } else {

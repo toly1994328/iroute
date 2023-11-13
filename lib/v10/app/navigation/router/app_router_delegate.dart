@@ -13,7 +13,7 @@ AppRouterDelegate router = AppRouterDelegate(
     ),
     node: appRoute);
 
-class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
+class AppRouterDelegate extends RouterDelegate<IRouteConfig> with ChangeNotifier {
   /// 核心数据，路由配置数据列表
   final List<IRouteConfig> _configs = [];
 
@@ -24,6 +24,10 @@ class AppRouterDelegate extends RouterDelegate<Object> with ChangeNotifier {
   final IRoutePageBuilder? notFindPageBuilder;
 
   final IRouteNode node;
+
+
+  @override
+  IRouteConfig get currentConfiguration => current;
 
   AppRouterDelegate({
     this.notFindPageBuilder,
