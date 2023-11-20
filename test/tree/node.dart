@@ -1,3 +1,26 @@
+class A<T extends NameAble>{
+  final T data;
+
+
+  A(this.data);
+
+  void printName(){
+    print(data.name);
+  }
+}
+
+mixin NameAble{
+  String get name;
+}
+
+class B with NameAble{
+  @override
+  String get name => 'B';
+
+}
+
+
+
 class Node {
   final String value;
   final List<Node> children;

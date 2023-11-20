@@ -14,6 +14,9 @@ class AppRouterParser extends RouteInformationParser<IRouteConfig> {
     RouteInformation routeInformation,
     BuildContext context,
   )  {
+    if(routeInformation.state is IRouteConfig){
+      return SynchronousFuture(routeInformation.state as IRouteConfig);
+    }
     return SynchronousFuture(IRouteConfig(uri: routeInformation.uri));
   }
 }

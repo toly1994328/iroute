@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -11,6 +12,7 @@ class DragToMoveWrap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if(kIsWeb) return child;
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onPanStart: (details) {

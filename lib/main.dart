@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
-import 'v8/app.dart';
+import 'v10/app.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,8 +14,7 @@ void main() {
 
 
 void setSize() async{
-
-  if(Platform.isWindows||Platform.isWindows||Platform.isLinux){
+  if(kIsWeb||Platform.isAndroid||Platform.isIOS) return;
     await windowManager.ensureInitialized();
     WindowOptions windowOptions = const WindowOptions(
       size: Size(800, 540),
@@ -29,6 +28,4 @@ void setSize() async{
       await windowManager.show();
       await windowManager.focus();
     });
-  }
-
 }

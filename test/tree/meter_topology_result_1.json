@@ -1,0 +1,16 @@
+{
+  "set_error_type": [],
+  "phase_type": [],
+  "hierarchy": {
+    "5": [
+      {
+        "meter_id": "180001507008",
+        "error_type": null,
+        "is_ltu": true,
+        "addr": "江西省宜春市袁州区温汤镇社埠村社布台区",
+        "phase": "0"
+      }
+    ]
+  },
+  "meter_set": []
+}
