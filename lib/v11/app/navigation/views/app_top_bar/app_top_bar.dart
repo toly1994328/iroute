@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:iroute/components/components.dart';
+import '../../../../pages/sort/provider/state.dart';
 import '../../router/app_router_delegate.dart';
 import '../../router/routes.dart';
+import '../../router/utils/path_utils.dart';
 import '../../router/views/route_back_indicator.dart';
 import 'app_router_editor.dart';
 import 'history_view_icon.dart';
@@ -83,6 +85,13 @@ class _RouterIndicatorState extends State<RouterIndicator> {
 
   void _onRouterChange() {
     setState(() {});
+    if(router.path.startsWith('/app/sort/')){
+      SortState state = SortStateScope.of(context);
+      String name = router.path.replaceAll('/app/sort/', '');
+      if(name!='settings'){
+        state.selectName(name);
+      }
+    }
   }
 
   List<BreadcrumbItem> pathToBreadcrumbItems(String path) {
@@ -97,7 +106,12 @@ class _RouterIndicatorState extends State<RouterIndicator> {
 
     for (String segment in uri.pathSegments) {
       to += '/$segment';
-      String label = kRouteLabelMap[to] ?? '未知路由';
+      String label = '';
+      if(to.startsWith('/app/sort/')){
+        label = to.replaceAll('/app/sort/', '');
+      }else{
+        label = kRouteLabelMap[to] ?? '未知路由';
+      }
       if(label.isNotEmpty){
         result.add(BreadcrumbItem(to: to, label: label, active: to == distPath));
       }

@@ -15,7 +15,7 @@ class AppRouterDelegate extends RouterDelegate<IRouteConfig>
   /// 核心数据，路由配置数据列表
   final List<IRouteConfig> _configs = [];
 
-  String get path => current.uri.path;
+  String get path => current.uri.toString();
 
   IRouteConfig get current => _configs.last;
 

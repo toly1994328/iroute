@@ -10,6 +10,7 @@ class IRouteConfig {
   final Object? extra;
   final bool forResult;
   final Uri uri;
+  final Map<String,String>? pathParams;
   final bool keepAlive;
   final RouteStyle routeStyle;
   final bool recordHistory;
@@ -18,12 +19,13 @@ class IRouteConfig {
     this.extra,
     required this.uri,
     this.forResult = false,
+    this.pathParams,
     this.keepAlive = false,
     this.routeStyle = RouteStyle.replace,
     this.recordHistory = false,
   });
 
-  String get path => uri.path;
+  String get path => uri.toString();
 
   IRouteConfig copyWith({
     Object? extra,

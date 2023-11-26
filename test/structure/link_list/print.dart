@@ -23,7 +23,4 @@ class ListNode {
     }
     return result;
   }
-
-
-
 }

@@ -81,7 +81,7 @@ class SortRailPanel extends StatelessWidget {
             options: sortNameMap.values.toList(),
             onSelected: (name) {
               state.selectName(name);
-              router.changePath('/app/sort/player');
+              router.changePath('/app/sort/${name}',recordHistory: true);
             },
           ),
         ),

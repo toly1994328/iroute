@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iroute/v9/app/navigation/router/views/navigator_scope.dart';
 
 import 'iroute_config.dart';
+import 'utils/path_utils.dart';
 
 typedef IRoutePageBuilder = Page? Function(
   BuildContext context,
@@ -55,7 +56,7 @@ abstract class IRouteNode {
     if (node.children.isNotEmpty) {
       target = prefix + target;
 
-      List<IRouteNode> nodes = node.children.where((e) => e.path == target).toList();
+      List<IRouteNode> nodes = node.children.where((e) => _match(e.path,target)).toList();
       bool match = nodes.isNotEmpty;
       if (match) {
         IRouteNode matched = nodes.first;
@@ -69,6 +70,14 @@ abstract class IRouteNode {
     }
     return result;
   }
+
+  bool _match(String path ,String target){
+    if(!path.contains(':')){
+      return path == target;
+    }
+    return patternToRegExp(path,[]).hasMatch(target);
+  }
+
 }
 
 /// 优先调用 [pageBuilder] 构建 Page
@@ -147,7 +156,6 @@ class CellIRoute extends IRouteNode {
     if (pageBuilder != null) {
       return pageBuilder!(context, config, child);
     }
-    print("======CellIRoute#createCellPage${config.pageKey}=================");
     return MaterialPage(
       child: child,
       key: config.pageKey,

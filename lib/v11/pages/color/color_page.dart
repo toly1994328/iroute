@@ -48,9 +48,10 @@ class _ColorPageState extends State<ColorPage> {
   }
 
   void _selectColor(Color color){
-    // String value = color.value.toRadixString(16);
-    // router.path = '/color/detail?color=$value';
-    router.changePath('/app/color/detail',extra: color);
+    String value = color.value.toRadixString(16);
+    String path = '/app/color/detail?color=$value';
+    // router.changePath('/app/color/detail',extra: color);
+    router.changePath(path,recordHistory: true);
 
   }
 

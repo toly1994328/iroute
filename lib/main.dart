@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
-import 'v10/app.dart';
+import 'v11/app.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

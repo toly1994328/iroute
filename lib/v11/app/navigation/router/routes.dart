@@ -43,7 +43,7 @@ CellIRoute appRoute = CellIRoute(
           widget: SortSettings(),
         ),
         const IRoute(
-          path: '/app/sort/player',
+          path: '/app/sort/player/:name',
           widget: SortPlayer(),
         ),
       ],
@@ -80,7 +80,7 @@ Map<String, String> kRouteLabelMap = {
   '/app/color/detail': '颜色详情',
   '/app/counter': '计数器',
   '/app/sort': '排序算法',
-  '/app/sort/player': '演示',
+  '/app/sort/:name': '',
   '/app/sort/settings': '排序配置',
   '/app/user': '我的',
   '/app/settings': '系统设置',

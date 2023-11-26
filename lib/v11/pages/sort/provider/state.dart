@@ -98,4 +98,7 @@ class SortStateScope extends InheritedNotifier<SortState> {
 
   static SortState of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<SortStateScope>()!.notifier!;
+
+  static SortState read(BuildContext context) =>
+      context.getInheritedWidgetOfExactType<SortStateScope>()!.notifier!;
 }

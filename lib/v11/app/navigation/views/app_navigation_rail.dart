@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iroute/components/components.dart';
+import 'package:provider/provider.dart';
+import '../../../pages/sort/provider/state.dart';
 import '../router/app_router_delegate.dart';
 import '../router/iroute_config.dart';
 import '../router/routes.dart';
@@ -37,7 +39,7 @@ class _AppNavigationRailState extends State<AppNavigationRail> {
         tail: Padding(
           padding: const EdgeInsets.only(bottom: 6.0),
           child: Text(
-            'V0.0.10',
+            'V0.0.11',
             style: TextStyle(color: Colors.white, fontSize: 12),
           ),
         ),
@@ -64,6 +66,12 @@ class _AppNavigationRailState extends State<AppNavigationRail> {
     String path = deskNavBarMenus[index].path!;
     if (index == 1) {
       router.changePath(path, keepAlive: true,recordHistory: true);
+      return;
+    }
+    if(index ==2){
+      SortState state = SortStateScope.read(context);
+      String name = state.config.name;
+      router.changePath('/app/sort/$name',recordHistory: true);
       return;
     }
     if (index == 4) {
