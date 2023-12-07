@@ -1,20 +1,9 @@
+import 'package:iroute/10/more_pop_icon.dart';
 import 'package:iroute/13/04/app/navigation/router/iroute.dart';
 
 void main() {
-  String path = '/color/detail/a';
-  // List<String> parts = path.split('/');
-  // print(parts);
-  // print(parserPath(path));
-
-  Uri uri = Uri.parse(path);
-  print(uri.fragment);
-  print(uri.pathSegments);
-
-  List<String> parts = uri.pathSegments;
-
-  parts =  List.of(parts)..removeLast();
-  String result = parts.join('/');
-  print(result);
+  bool b = MenuAction.help > MenuAction.about;
+  print(b);
 }
 
 
