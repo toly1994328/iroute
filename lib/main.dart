@@ -2,14 +2,16 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:window_manager/window_manager.dart';
 
-import 'v11/app.dart';
+import 'v12/app.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   setSize();
-  runApp(const UnitApp());
+  GoRouter.optionURLReflectsImperativeAPIs = true;
+  runApp(UnitApp());
 }
 
 

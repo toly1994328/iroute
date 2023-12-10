@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../app_router_delegate.dart';
+import 'package:go_router/go_router.dart';
+
 class RouteBackIndicator extends StatefulWidget {
   const RouteBackIndicator({super.key});
 
@@ -9,25 +10,30 @@ class RouteBackIndicator extends StatefulWidget {
 
 class _RouteBackIndicatorState extends State<RouteBackIndicator> {
 
+  late GoRouterDelegate _delegate ;
+
   @override
   void initState() {
     super.initState();
-    router.addListener(_onChange);
+    _delegate =  GoRouter.of(context).routerDelegate;
+    _delegate.addListener(_onChange);
   }
 
   @override
   void dispose() {
-    router.removeListener(_onChange);
+    _delegate.removeListener(_onChange);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if(router.canPop){
+    bool hasPush = _delegate.currentConfiguration.matches
+        .whereType<ImperativeRouteMatch>().isNotEmpty;
+    if(hasPush){
       return MouseRegion(
         cursor: SystemMouseCursors.click,
         child: GestureDetector(
-          onTap: router.backStack,
+          onTap: context.pop,
           child: Container(
               width: 26,
               height: 26,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../app/navigation/router/app_router_delegate.dart';
+import 'package:go_router/go_router.dart';
+
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -14,7 +15,8 @@ class LoginPage extends StatelessWidget {
             Text('Login Page',style: TextStyle(fontSize: 24),),
             const SizedBox(height: 20,),
             ElevatedButton(onPressed: (){
-              router.changePath('/app/color');
+              GoRouter.of(context).go('/color');
+              // router.changePath('/app/color');
             }, child: Text('点击进入'))
           ],
         ),
