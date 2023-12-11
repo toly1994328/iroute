@@ -66,7 +66,10 @@ class _ColorPageState extends State<ColorPage> {
   void _selectColor(Color color) {
     String value = color.value.toRadixString(16);
     context.push('/color/detail?color=$value');
-    // GoRouter.of(context) .pushNamed('colorDetail', queryParameters: {'color': value});
+    // context.pushNamed(
+    //   'colorDetail',
+    //   queryParameters: {'color': value},
+    // );
   }
 
   void _toAddPage() async {
