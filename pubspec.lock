@@ -120,6 +120,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "12.1.1"
+  idraw:
+    dependency: "direct main"
+    description:
+      path: "packages/idraw"
+      relative: true
+    source: path
+    version: "0.0.1"
   lints:
     dependency: transitive
     description:
@@ -269,6 +276,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.6.0"
+  toly_menu:
+    dependency: "direct main"
+    description:
+      path: "E:\\Projects\\Flutter\\packages\\toly_menu"
+      relative: false
+    source: path
+    version: "0.0.1"
   url_launcher:
     dependency: "direct main"
     description:
@@ -366,5 +380,5 @@ packages:
     source: hosted
     version: "0.3.7"
 sdks:
-  dart: ">=3.1.0 <4.0.0"
+  dart: ">=3.1.1 <4.0.0"
   flutter: ">=3.13.0"

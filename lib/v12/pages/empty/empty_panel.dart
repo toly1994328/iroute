@@ -8,21 +8,23 @@ class EmptyPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Center(
-      child: Wrap(
-        spacing: 16,
-        crossAxisAlignment: WrapCrossAlignment.center,
-        direction: Axis.vertical,
-        children: [
-          Icon(Icons.nearby_error,size: 64, color: Colors.redAccent),
-          Text(
-            msg,
-            style: TextStyle(fontSize: 24, color: Colors.grey),
-          ),
-          ElevatedButton(onPressed: (){
-            context.go('/');
-          }, child: Text('返回首页'))
-        ],
+    return  Material(
+      child: Center(
+        child: Wrap(
+          spacing: 16,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          direction: Axis.vertical,
+          children: [
+            Icon(Icons.nearby_error,size: 64, color: Colors.redAccent),
+            Text(
+              msg,
+              style: TextStyle(fontSize: 24, color: Colors.grey),
+            ),
+            ElevatedButton(onPressed: (){
+              context.go('/');
+            }, child: Text('返回首页'))
+          ],
+        ),
       ),
     );
   }
