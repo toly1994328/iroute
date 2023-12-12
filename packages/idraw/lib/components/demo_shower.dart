@@ -15,51 +15,53 @@ class _DemoShowerState extends State<DemoShower> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: [
-        PageView(
-          controller: _ctrl,
-          children: widget.demos,
-        ),
+    return Material(
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          PageView(
+            controller: _ctrl,
+            children: widget.demos,
+          ),
 
-        Positioned(
-            bottom: 20,
-            child:  Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                TolyIconButton(
-                  onTap: (){
-                    _index= (_index-1)%widget.demos.length;
-                    setState(() {
+          Positioned(
+              bottom: 20,
+              child:  Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  TolyIconButton(
+                    onTap: (){
+                      _index= (_index-1)%widget.demos.length;
+                      setState(() {
 
-                    });
-                    _ctrl.animateToPage(_index,curve: Curves.easeIn,duration: Duration(milliseconds: 200));
-                  },
-                  iconData: Icons.navigate_before,
-                  size: 36,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: Text('第 ${_index+1}/${widget.demos.length} 页',style: TextStyle(fontSize: 16,color: Colors.grey),),
-                ),
+                      });
+                      _ctrl.animateToPage(_index,curve: Curves.easeIn,duration: Duration(milliseconds: 200));
+                    },
+                    iconData: Icons.navigate_before,
+                    size: 36,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Text('第 ${_index+1}/${widget.demos.length} 页',style: TextStyle(fontSize: 16,color: Colors.grey),),
+                  ),
 
-                TolyIconButton(
-                  onTap: (){
-                    _index= (_index+1)%widget.demos.length;
-                    setState(() {
+                  TolyIconButton(
+                    onTap: (){
+                      _index= (_index+1)%widget.demos.length;
+                      setState(() {
 
-                    });
-                    _ctrl.animateToPage(_index,curve: Curves.easeIn,duration: Duration(milliseconds: 200));
-                  },
-                  size: 36,
-                  iconData: Icons.navigate_next,
-                ),
+                      });
+                      _ctrl.animateToPage(_index,curve: Curves.easeIn,duration: Duration(milliseconds: 200));
+                    },
+                    size: 36,
+                    iconData: Icons.navigate_next,
+                  ),
 
-              ],
-            )),
+                ],
+              )),
 
-      ],
+        ],
+      ),
     );
   }
 }

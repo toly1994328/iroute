@@ -70,7 +70,6 @@ List<BookInfo> kBooks = [
     cover: 'assets/images/anima.webp',
     price: '3.5',
   ),
-
   BookInfo(
     name: 'Flutter渲染机制·聚沙成塔',
     path: 'dream',
@@ -102,7 +101,6 @@ List<BookInfo> projectBooks = [
   ),
 ];
 
-
 class ViewBooks extends StatelessWidget {
   const ViewBooks({super.key});
 
@@ -117,70 +115,43 @@ class ViewBooks extends StatelessWidget {
     );
     return CustomScrollView(
       slivers: [
+        SliverToBoxAdapter(
+          child: TitleGroup(
+            title: 'Flutter 七剑合璧',
+            lineColor: const Color(0xff6EAFF9),
+          ),
+        ),
+        _buildSliverSliverGrid(kBooks,gridDelegate),
+        SliverToBoxAdapter(
+          child: TitleGroup(
+            title: 'Flutter 实战探索',
+            lineColor: const Color(0xffFD983A),
+          ),
+        ),
+        _buildSliverSliverGrid(projectBooks,gridDelegate),
+
 
         SliverToBoxAdapter(
-          child: TitleGroup(title: 'Flutter 七剑合璧',),
+          child: TitleGroup(
+            title: 'Flutter 免费小册',
+            lineColor: const Color(0xff7864E1),
+          ),
         ),
-
-        SliverGrid(
-            delegate: SliverChildBuilderDelegate(
-                  (_, i) => BookCell(bookInfo:kBooks[i]),
-              childCount: kBooks.length,
-            ),
-            gridDelegate: gridDelegate),
-
-        SliverToBoxAdapter(
-          child: TitleGroup(title: 'Flutter 实战探索',),
-        ),
-
-
-        SliverGrid(
-            delegate: SliverChildBuilderDelegate(
-                  (_, i) => BookCell(bookInfo:projectBooks[i]),
-              childCount: projectBooks.length,
-            ),
-            gridDelegate: gridDelegate),
-
-        SliverToBoxAdapter(
-          child: TitleGroup(title: 'Flutter 免费小册',),
-        ),
-        SliverGrid(
-            delegate: SliverChildBuilderDelegate(
-                  (_, i) => BookCell(bookInfo:freeBooks[i]),
-              childCount: freeBooks.length,
-            ),
-            gridDelegate: gridDelegate),
+        _buildSliverSliverGrid(freeBooks,gridDelegate),
       ],
     );
+  }
 
-    // SliverGridDelegate gridDelegate = const SliverGridDelegateWithMaxCrossAxisExtent(
-    //   maxCrossAxisExtent: 240,
-    //   mainAxisSpacing: 10,
-    //   mainAxisExtent: 260,
-    //   crossAxisSpacing: 10,
-    // );
-    // return GridView.builder(
-    //   padding: EdgeInsets.all(10),
-    //   gridDelegate: gridDelegate,
-    //   itemBuilder: (_, i) {
-    //     BookInfo bookInfo = kBooks[i];
-    //     return Center(
-    //       child: Padding(
-    //         padding: EdgeInsets.symmetric(horizontal: 10,vertical: 6),
-    //         child: Column(
-    //           crossAxisAlignment: CrossAxisAlignment.start,
-    //           children: [
-    //             Expanded(child: Center(child: Image.asset(bookInfo.cover))),
-    //             const SizedBox(height: 6,),
-    //             Text('${bookInfo.name}',style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
-    //             const SizedBox(height: 6,),
-    //             Text('${bookInfo.info}',style: TextStyle(fontSize: 12,color: Color(0xff515767)),),
-    //           ],
-    //         ),
-    //       ),
-    //     );
-    //   },
-    //   itemCount: kBooks.length,
-    // );
+  Widget _buildSliverSliverGrid(
+      List<BookInfo> books, SliverGridDelegate gridDelegate) {
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      sliver: SliverGrid(
+          delegate: SliverChildBuilderDelegate(
+            (_, i) => BookCell(bookInfo: books[i]),
+            childCount: books.length,
+          ),
+          gridDelegate: gridDelegate),
+    );
   }
 }
