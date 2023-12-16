@@ -30,8 +30,6 @@ class Coordinate {
     canvas.restore();
   }
 
-
-
   void _drawAxis(Canvas canvas, Size size) {
     _gridPaint
       ..color = Colors.blue
@@ -162,3 +160,4 @@ class Coordinate {
     canvas.restore();
   }
 }
+

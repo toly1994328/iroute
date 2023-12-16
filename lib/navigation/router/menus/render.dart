@@ -1,6 +1,10 @@
+import '../../../app/res/fx_icon.dart';
+
 Map<String,dynamic> renderMenus = {
   'path' : '/render',
   'label' :  '渲染-聚沙成塔',
+  'icon': FxIcon.icon_sun,
+
   'children': [
     {
       'path' : '/chapter1',

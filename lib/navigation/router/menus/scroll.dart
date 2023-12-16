@@ -1,6 +1,10 @@
+import '../../../app/res/fx_icon.dart';
+
 Map<String,dynamic> scrollMenus = {
   'path' : '/scroll',
   'label' :  '滑动-珠联璧合',
+  'icon': FxIcon.icon_scroll,
+
   'children': [
     {
       'path' : '/chapter1',

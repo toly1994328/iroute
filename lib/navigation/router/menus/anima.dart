@@ -1,6 +1,9 @@
+import '../../../app/res/fx_icon.dart';
+
 Map<String,dynamic> animaMenus = {
   'path' : '/anima',
   'label' :  '动画-流光幻影',
+  'icon': FxIcon.icon_anima,
   'children': [
     {
       'path' : '/chapter1',

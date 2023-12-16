@@ -1,0 +1,1 @@
+export 'p06_page.dart';

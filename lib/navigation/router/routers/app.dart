@@ -1,37 +1,39 @@
+import 'package:components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:iroute/v12/pages/empty/empty_panel.dart';
+import 'package:iroute/navigation/router/routers/anima.dart';
+import 'package:iroute/navigation/router/routers/dream.dart';
+import 'package:iroute/navigation/router/routers/render.dart';
+import 'package:iroute/navigation/router/routers/scroll.dart';
+import 'package:iroute/navigation/router/routers/touch.dart';
 
-import '../../../navigation/app_navigation.dart';
+import '../../views/app_navigation.dart';
+import '../../../pages/empty/empty_panel.dart';
 import 'dashboard.dart';
 import 'draw.dart';
+import 'layout.dart';
 
 
 final RouteBase appRoute = ShellRoute(
   builder: (BuildContext context, GoRouterState state, Widget child) {
-    return BookAppNavigation(content: child);
+    return TolyBookNavigation(content: child);
   },
   routes: <RouteBase>[
     dashboardRouters,
     drawRouters,
-    // GoRoute(
-    //     path: 'counter',
-    //     builder: (BuildContext context, GoRouterState state) {
-    //       return const CounterPage();
-    //     }),
-    // sortRouters,
-    // GoRoute(
-    //   path: 'user',
-    //   builder: (BuildContext context, GoRouterState state) {
-    //     return const UserPage();
-    //   },
-    // ),
-    // GoRoute(
-    //   path: 'settings',
-    //   builder: (BuildContext context, GoRouterState state) {
-    //     return const SettingPage();
-    //   },
-    // ),
+    touchRouters,
+    dreamRouters,
+    scrollRouters,
+    renderRouters,
+    layoutRouters,
+    animaRouters,
+    GoRoute(
+      path: '/code',
+      builder: (BuildContext context, GoRouterState state) {
+        String? path = state.uri.queryParameters['path'];
+        return  CodeView(path: path??'',);
+      },
+    ),
     GoRoute(
       path: '/404',
       builder: (BuildContext context, GoRouterState state) {

@@ -1,6 +1,5 @@
+import 'package:components/toly_ui/decoration/title.dart';
 import 'package:flutter/material.dart';
-
-import '../../../components/toly_ui/decoration/title.dart';
 
 class TitleGroup extends StatelessWidget {
   final String title;

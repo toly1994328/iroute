@@ -1,82 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:idraw/idraw.dart';
-import 'package:iroute/pages/dashboard/chat_room.dart';
+import 'package:iroute/pages/empty/empty_panel.dart';
 
 final RouteBase drawRouters = GoRoute(
-  path: '/draw',
-  redirect: (_, state) {
-    if (state.fullPath == '/draw') {
-      return '/draw/chapter1';
-    }
-    return null;
-  },
-  routes: <RouteBase>[
-    GoRoute(
-      path: 'chapter1',
-      builder: (BuildContext context, GoRouterState state) {
+  path: '/draw/chapter:index',
+  builder:  (BuildContext context, GoRouterState state) {
+    String? index = state.pathParameters['index'];
+    switch(index){
+      case '1':
         return const P01Page();
-      },
-    ),
-    GoRoute(
-      path: 'chapter2',
-      builder: (BuildContext context, GoRouterState state) {
+      case '2':
         return const P02Page();
-      },
-    ),
-    GoRoute(
-      path: 'chapter3',
-      builder: (BuildContext context, GoRouterState state) {
+      case '3':
         return const P03Page();
-      },
-    ),
-    GoRoute(
-      path: 'chapter4',
-      builder: (BuildContext context, GoRouterState state) {
+      case '4':
         return const P04Page();
-      },
-    ),
-    GoRoute(
-      path: 'chapter5',
-      builder: (BuildContext context, GoRouterState state) {
+      case '5':
         return const P05Page();
-      },
-    ),
-    GoRoute(
-      path: 'chapter6',
-      builder: (BuildContext context, GoRouterState state) {
+      case '6':
         return const P06Page();
-      },
-    ),
-    GoRoute(
-      path: 'chapter7',
-      builder: (BuildContext context, GoRouterState state) {
+      case '7':
         return const P07Page();
-      },
-    ),
-    GoRoute(
-      path: 'chapter8',
-      builder: (BuildContext context, GoRouterState state) {
+      case '8':
         return const P08Page();
-      },
-    ),
-    GoRoute(
-      path: 'chapter9',
-      builder: (BuildContext context, GoRouterState state) {
+      case '9':
         return const P09Page();
-      },
-    ),
-    GoRoute(
-      path: 'chapter10',
-      builder: (BuildContext context, GoRouterState state) {
+      case '10':
         return const P10Page();
-      },
-    ),
-    GoRoute(
-      path: 'chapter11',
-      builder: (BuildContext context, GoRouterState state) {
+       case '11':
         return const P11Page();
-      },
-    ),
-  ],
+    }
+    return const EmptyPanel(msg: '暂未实现');
+  },
 );

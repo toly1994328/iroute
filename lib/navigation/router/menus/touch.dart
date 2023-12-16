@@ -1,6 +1,9 @@
+import '../../../app/res/fx_icon.dart';
+
 Map<String,dynamic> touchMenus = {
   'path' : '/touch',
   'label' :  '手势-执掌天下',
+  'icon': FxIcon.fill_shoushi,
   'children': [
     {
       'path' : '/chapter1',

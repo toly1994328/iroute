@@ -1,6 +1,10 @@
+import '../../../app/res/fx_icon.dart';
+
 Map<String,dynamic> layoutMenus = {
   'path' : '/layout',
   'label' :  '布局-薪火相传',
+  'icon': FxIcon.icon_layout,
+
   'children': [
     {
       'path' : '/chapter1',

@@ -1,6 +1,9 @@
+import '../../../app/res/fx_icon.dart';
+
 Map<String,dynamic> dreamMenus = {
   'path' : '/dream',
   'label' :  '基础-梦始之地',
+  'icon': FxIcon.icon_dream,
   'children': [
     {
       'path' : '/chapter1',

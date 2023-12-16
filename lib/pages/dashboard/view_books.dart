@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:iroute/navigation/router/menus/menu_scope/menu_scope.dart';
 
 import 'view_book/book_cell.dart';
 import 'view_book/title_group.dart';
@@ -121,14 +123,14 @@ class ViewBooks extends StatelessWidget {
             lineColor: const Color(0xff6EAFF9),
           ),
         ),
-        _buildSliverSliverGrid(kBooks,gridDelegate),
+        _buildSliverSliverGrid(context,kBooks,gridDelegate),
         SliverToBoxAdapter(
           child: TitleGroup(
             title: 'Flutter 实战探索',
             lineColor: const Color(0xffFD983A),
           ),
         ),
-        _buildSliverSliverGrid(projectBooks,gridDelegate),
+        _buildSliverSliverGrid(context,projectBooks,gridDelegate),
 
 
         SliverToBoxAdapter(
@@ -137,18 +139,22 @@ class ViewBooks extends StatelessWidget {
             lineColor: const Color(0xff7864E1),
           ),
         ),
-        _buildSliverSliverGrid(freeBooks,gridDelegate),
+        _buildSliverSliverGrid(context,freeBooks,gridDelegate),
       ],
     );
   }
 
-  Widget _buildSliverSliverGrid(
+  Widget _buildSliverSliverGrid(BuildContext context,
       List<BookInfo> books, SliverGridDelegate gridDelegate) {
     return SliverPadding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       sliver: SliverGrid(
           delegate: SliverChildBuilderDelegate(
-            (_, i) => BookCell(bookInfo: books[i]),
+            (_, i) => BookCell(bookInfo: books[i],onSelect: (b){
+              if(b.path == 'draw'){
+                context.go('/draw/chapter1');
+              }
+            },),
             childCount: books.length,
           ),
           gridDelegate: gridDelegate),
