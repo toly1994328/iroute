@@ -18,18 +18,20 @@ class _CodeViewState extends State<CodeView> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _loadContent();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Material(
-          child: CodeWidget(code:'${content}', style: HighlighterStyle.fromColors(HighlighterStyle.lightColor),),
+    return ColoredBox(
+      color: Colors.white,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+          child: Material(
+            child: CodeWidget(code:'${content}', style: HighlighterStyle.fromColors(HighlighterStyle.lightColor),),
+          ),
         ),
       ),
     );

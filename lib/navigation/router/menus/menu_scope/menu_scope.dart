@@ -62,7 +62,6 @@ class MenuStore with ChangeNotifier {
       ?.label;
 
   void selectMenuPath(String path) {
-    print("======================selectMenuPath:$path======${_shouldAddHistory}==============");
     MenuNode root = MenuNode(
       path: '',
       label: '',
@@ -160,6 +159,14 @@ class MenuStore with ChangeNotifier {
   }
 
   void select(MenuNode menu) {
+    bool hasHistory = _history.where((e) => e.menuPath==menu.path).isNotEmpty;
+    if(hasHistory){
+      _shouldAddHistory = false;
+      selectMenuPath(menu.path);
+      notifyListeners();
+      return;
+    }
+
     if (menu.isLeaf) {
       _state = state.copyWith(activeMenu: menu.path);
       goRouter.go(menu.path);

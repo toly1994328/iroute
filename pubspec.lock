@@ -80,6 +80,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.5"
+  dio:
+    dependency: transitive
+    description:
+      name: dio
+      sha256: "797e1e341c3dd2f69f2dad42564a6feff3bfb87187d05abb93b9609e6f1645c3"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "5.4.0"
   fake_async:
     dependency: transitive
     description:
@@ -119,6 +127,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "12.1.1"
+  http_parser:
+    dependency: transitive
+    description:
+      name: http_parser
+      sha256: "2aa08ce0341cc9b354a498388e30986515406668dbcc4f7c950c3e715496693b"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "4.0.2"
   idraw:
     dependency: "direct main"
     description:
@@ -270,10 +286,11 @@ packages:
   toly_menu:
     dependency: "direct main"
     description:
-      path: "E:\\Projects\\Flutter\\packages\\toly_menu"
-      relative: false
-    source: path
-    version: "0.0.2"
+      name: toly_menu
+      sha256: "0dbc80a3e7d2e18833a914e76411a03c3feff1f4baffbd382b180e8a0051b1e7"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.3"
   typed_data:
     dependency: transitive
     description:

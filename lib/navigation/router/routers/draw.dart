@@ -5,32 +5,76 @@ import 'package:iroute/pages/empty/empty_panel.dart';
 
 final RouteBase drawRouters = GoRoute(
   path: '/draw/chapter:index',
-  builder:  (BuildContext context, GoRouterState state) {
+  pageBuilder: (BuildContext context, GoRouterState state) {
     String? index = state.pathParameters['index'];
-    switch(index){
+    Widget child = const EmptyPanel(msg: '暂未实现');
+    switch (index) {
       case '1':
-        return const P01Page();
+        child = const P01Page();
+        break;
       case '2':
-        return const P02Page();
+        child = const P02Page();
+        break;
       case '3':
-        return const P03Page();
+        child = const P03Page();
+        break;
       case '4':
-        return const P04Page();
+        child = const P04Page();
+        break;
       case '5':
-        return const P05Page();
+        child = const P05Page();
+        break;
       case '6':
-        return const P06Page();
+        child = const P06Page();
+        break;
       case '7':
-        return const P07Page();
+        child = const P07Page();
+        break;
       case '8':
-        return const P08Page();
+        child = const P08Page();
+        break;
       case '9':
-        return const P09Page();
+        child = const P09Page();
+        break;
       case '10':
-        return const P10Page();
-       case '11':
-        return const P11Page();
+        child = const P10Page();
+        break;
+      case '11':
+        child = const P11Page();
+        break;
+      case '12':
+        child = const P12Page();
+        break;
+      case '13':
+        child = const P13Page();
+        break;
+      case '14':
+        child = const P14Page();
+        break;
+      case '15':
+        child = const P15Page();
+        break;
+      case '16':
+        child = const P16Page();
+        break;
+      case '17':
+        child = const P17Page();
+        break;
+      case '18':
+        child = const P18Page();
+        break;
     }
-    return const EmptyPanel(msg: '暂未实现');
+
+    return CustomTransitionPage(
+        child: child,
+        transitionsBuilder: (ctx, a1, a2, child) => FadeTransition(
+              opacity: a1.drive(CurveTween(curve: Curves.easeIn)),
+              child: SlideTransition(
+                position: Tween<Offset>(
+                        begin: Offset.zero, end: const Offset(-1.0, 0.0))
+                    .animate(a2),
+                child: child,
+              ),
+            ));
   },
 );

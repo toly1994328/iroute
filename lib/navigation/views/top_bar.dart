@@ -10,23 +10,26 @@ class AppTopBar extends StatelessWidget {
   Widget build(BuildContext context) {
     // String? lable =  MenuScope.of(context).currentNode?.label;
     return DragToMoveWrap(
-      child:  Stack(
-        alignment: Alignment.centerRight,
-        children: [Row(
-          children: [
-            SizedBox(width: 20,),
-            RouteBackIndicator(),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: RouterIndicator(),
-            ),
-            // Text(
-            //   '$lable',
-            //   style: TextStyle(fontSize: 14),
-            // ),
-            Spacer(),
-          ],
-        ),WindowButtons()]
+      child:  SizedBox(
+        height: 36,
+        child: Stack(
+          alignment: Alignment.centerRight,
+          children: [Row(
+            children: [
+              SizedBox(width: 20,),
+              RouteBackIndicator(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: RouterIndicator(),
+              ),
+              // Text(
+              //   '$lable',
+              //   style: TextStyle(fontSize: 14),
+              // ),
+              Spacer(),
+            ],
+          ),WindowButtons()]
+        ),
       ),
     );
   }
