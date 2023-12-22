@@ -63,6 +63,15 @@ final RouteBase drawRouters = GoRoute(
       case '18':
         child = const P18Page();
         break;
+      case '19':
+        child = const P19Page();
+        break;
+      case '20':
+        child = const P20Page();
+        break;
+        case '21':
+        child = const P21Page();
+        break;
     }
 
     return CustomTransitionPage(

@@ -117,9 +117,6 @@ class _RouterIndicatorState extends State<RouterIndicator> {
     if(matches.isEmpty) return const SizedBox();
     RouteMatch match = _delegate.currentConfiguration.matches.last;
 
-    print(
-        "=========_RouterIndicatorState:build==${match.matchedLocation}========");
-
     return TolyBreadcrumb(
       fontSize: 12,
       items: pathToBreadcrumbItems(context, match.matchedLocation),

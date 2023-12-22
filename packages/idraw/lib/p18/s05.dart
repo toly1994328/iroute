@@ -98,9 +98,10 @@ class _WorldState extends State<World> with SingleTickerProviderStateMixin {
     for (int i = 0; i < imageSrc.width; i++) {
       for (int j = 0; j < imageSrc.height; j++) {
         image.PixelUint8 pixel = imageSrc.getPixel(i, j) as image.PixelUint8;
+        var color = Color.fromARGB(pixel.a.toInt(),pixel.r.toInt(),pixel.g.toInt(),pixel.b.toInt());
+        print('-($i,$j)----${color.value}---------------');
 
-        if (pixel.toString() != '(255, 255, 255, 0)') {
-          // print('-($i,$j)----${imageSrc.getPixel(i, j)}---------------');
+        if (color.value == 4278190080) {
 
           Particle particle = Particle(
               x: i * 1.0+ offsetX,
@@ -115,9 +116,7 @@ class _WorldState extends State<World> with SingleTickerProviderStateMixin {
         }
       }
     }
-    setState(() {
-
-    });
+    pm.tick();
   }
 }
 
