@@ -10,6 +10,7 @@ class UnitApp extends StatelessWidget {
 
     return MaterialApp(
         theme: ThemeData(
+          useMaterial3: false,
             appBarTheme: const AppBarTheme(
                 elevation: 0,
                 iconTheme: IconThemeData(color: Colors.black),
