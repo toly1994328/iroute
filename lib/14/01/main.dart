@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-
-import 'app/unit_app.dart';
-import 'app/navigation/app_router_delegate.dart';
-
-
-
+import 'pages/app/app.dart';
 
 
 void main() {
-  runApp(const UnitApp());
+  runApp(const App());
 }
 
 
