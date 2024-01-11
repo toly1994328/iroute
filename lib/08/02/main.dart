@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
           titleTextStyle: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.bold)
         )
       ),
-      home:  const PageA(),
+      home:  const HomePage(),
       onUnknownRoute: _onUnknownRoute,
     );
   }
@@ -44,5 +44,30 @@ class MyApp extends StatelessWidget {
       return MaterialPageRoute(builder: (_)=> page!,settings: settings);
     }
     return null;
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+  @override
+  Widget build(BuildContext context) {
+    const Color bgColor = Color(0xffCCFFFF);
+
+    return Scaffold(
+      backgroundColor: bgColor,
+      appBar: AppBar(title: const Text('主页'),
+        backgroundColor: bgColor,
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: ()=>toPageB(context),
+          child: const Text('Push A'),
+        ),
+      ),
+    );
+  }
+
+  void toPageB(BuildContext context){
+    Navigator.of(context).pushNamed('/a');
   }
 }
