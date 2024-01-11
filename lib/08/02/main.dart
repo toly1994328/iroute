@@ -60,14 +60,14 @@ class HomePage extends StatelessWidget {
       ),
       body: Center(
         child: ElevatedButton(
-          onPressed: ()=>toPageB(context),
+          onPressed: ()=>toPageA(context),
           child: const Text('Push A'),
         ),
       ),
     );
   }
 
-  void toPageB(BuildContext context){
+  void toPageA(BuildContext context){
     Navigator.of(context).pushNamed('/a');
   }
 }
